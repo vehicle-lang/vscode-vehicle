@@ -13,6 +13,7 @@ repository:
   keywords:
     patterns:
       - include: "#declaration_keywords"
+      - include: "#control_keywords"
 
   declaration_keywords:
     match: >-
@@ -32,11 +33,38 @@ repository:
       "6": { name: keyword.other.declaration.parameter.vehicle }
       "7": { name: keyword.other.declaration.type.vehicle }
 
+  control_keywords:
+    match: >-
+      (?x)
+        \b
+        (?:
+          (forall)
+          |(exists)
+          |(foreach)
+          |(let)
+          |(in)
+          |(if)
+          |(then)
+          |(else)
+        )
+        \b
+    captures:
+      "1": { name: keyword.control.forall.vehicle }
+      "2": { name: keyword.control.exists.vehicle }
+      "3": { name: keyword.control.foreach.vehicle }
+      "4": { name: keyword.other.let.vehicle }
+      "5": { name: keyword.other.in.vehicle }
+      "6": { name: keyword.control.if.vehicle }
+      "7": { name: keyword.control.then.vehicle }
+      "8": { name: keyword.control.else.vehicle }
+
+
   # Builtins
   builtins:
     patterns:
       - include: "#type_builtins"
       - include: "#operator_builtins"
+      - include: "#value_builtins"
 
   value_builtins:
     match: >-
@@ -46,6 +74,9 @@ repository:
           (\(\))
           |(True)
           |(False)
+          |(not)
+          |(map)
+          |(fold)
         )
         \b
     captures:

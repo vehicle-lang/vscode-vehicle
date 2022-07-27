@@ -202,9 +202,9 @@
 >advises i x = forall j . i != j => acasXu x ! i < acasXu x ! j
 #^^^^^^^^^^^^ source.vehicle
 #            ^ source.vehicle keyword.operator.define.vehicle
-#             ^^ source.vehicle
-#               ^^ source.vehicle keyword.operator.or.vehicle
-#                 ^^^^^^ source.vehicle
+#             ^ source.vehicle
+#              ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                    ^^^ source.vehicle
 #                       ^ source.vehicle keyword.operator.dot.vehicle
 #                        ^^^ source.vehicle
 #                           ^^ source.vehicle keyword.operator.distinct.vehicle
@@ -285,9 +285,9 @@
 >property1 = forall x . intruderDistantAndSlower x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                                  ^^ source.vehicle keyword.operator.implies.vehicle
@@ -325,14 +325,16 @@
 >property2 = forall x . intruderDistantAndSlower x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                                  ^^ source.vehicle keyword.operator.implies.vehicle
 >  (exists j . (acasXu x ! j) > (acasXu x ! clearOfConflict))
-#^^^^^^^^^^^^ source.vehicle
+#^^^ source.vehicle
+#   ^^^^^^ source.vehicle keyword.control.exists.vehicle
+#         ^^^ source.vehicle
 #            ^ source.vehicle keyword.operator.dot.vehicle
 #             ^^^^^^^^^^^ source.vehicle
 #                        ^ source.vehicle keyword.operator.lookup.vehicle
@@ -444,16 +446,18 @@
 >property3 = forall x . directlyAhead x and movingTowards x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^ source.vehicle
 #                                       ^^^ source.vehicle keyword.operator.and.vehicle
 #                                          ^^^^^^^^^^^^^^^^^ source.vehicle
 #                                                           ^^ source.vehicle keyword.operator.implies.vehicle
 >  not (advises clearOfConflict x)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#^^ source.vehicle
+#  ^^^ source.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -526,16 +530,18 @@
 >property4 = forall x . directlyAhead x and movingAway x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^ source.vehicle
 #                                       ^^^ source.vehicle keyword.operator.and.vehicle
 #                                          ^^^^^^^^^^^^^^ source.vehicle
 #                                                        ^^ source.vehicle keyword.operator.implies.vehicle
 >  not (advises clearOfConflict x)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#^^ source.vehicle
+#  ^^^ source.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -643,9 +649,9 @@
 >property5 = forall x . nearAndApproachingFromLeft x => advises strongRight x
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                                    ^^ source.vehicle keyword.operator.implies.vehicle
@@ -763,9 +769,9 @@
 >property6 = forall x . intruderFarAway x => advises clearOfConflict x
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                         ^^ source.vehicle keyword.operator.implies.vehicle
@@ -866,16 +872,20 @@
 >property7 = forall x . largeVerticalSeparation x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                                 ^^ source.vehicle keyword.operator.implies.vehicle
 >  not (advises strongLeft x) and not (advises strongRight x)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#^^ source.vehicle
+#  ^^^ source.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                             ^^^ source.vehicle keyword.operator.and.vehicle
-#                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                ^ source.vehicle
+#                                 ^^^ source.vehicle
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -982,9 +992,9 @@
 >property8 = forall x . largeVerticalSeparationAndPreviousWeakLeft x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                                                    ^^ source.vehicle keyword.operator.implies.vehicle
@@ -1101,9 +1111,9 @@
 >property9 = forall x . previousWeakRightAndNearbyIntruder x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
-#           ^^ source.vehicle
-#             ^^ source.vehicle keyword.operator.or.vehicle
-#               ^^^^^^ source.vehicle
+#           ^ source.vehicle
+#            ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
 #                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                                            ^^ source.vehicle keyword.operator.implies.vehicle
@@ -1211,9 +1221,9 @@
 >property10 = forall x . intruderFarAway2 x => advises clearOfConflict x
 #^^^^^^^^^^^ source.vehicle
 #           ^ source.vehicle keyword.operator.define.vehicle
-#            ^^ source.vehicle
-#              ^^ source.vehicle keyword.operator.or.vehicle
-#                ^^^^^^ source.vehicle
+#            ^ source.vehicle
+#             ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                   ^^^ source.vehicle
 #                      ^ source.vehicle keyword.operator.dot.vehicle
 #                       ^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                           ^^ source.vehicle keyword.operator.implies.vehicle
