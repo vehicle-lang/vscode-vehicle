@@ -2,10 +2,135 @@ name: Vehicle
 scopeName: source.vehicle
 
 patterns:
+  - include: "#keywords"
+  - include: "#builtins"
   - include: "#comments"
   - include: "#numeric_literals"
+  - include: "#holes"
 
 repository:
+  # Keywords
+  keywords:
+    patterns:
+      - include: "#declaration_keywords"
+
+  declaration_keywords:
+    match: >-
+      (?x)
+        ^
+        (?:
+          (network)
+          |(dataset)
+          |(((implicit)\s+)?(parameter))
+          |(type)
+        )
+        \b
+    captures:
+      "1": { name: keyword.other.declaration.network.vehicle }
+      "2": { name: keyword.other.declaration.dataset.vehicle }
+      "5": { name: keyword.other.declaration.implicit.vehicle }
+      "6": { name: keyword.other.declaration.parameter.vehicle }
+      "7": { name: keyword.other.declaration.type.vehicle }
+
+  # Builtins
+  builtins:
+    patterns:
+      - include: "#type_builtins"
+      - include: "#operator_builtins"
+
+  value_builtins:
+    match: >-
+      (?x)
+        \b
+        (?:
+          (\(\))
+          |(True)
+          |(False)
+        )
+        \b
+    captures:
+      "1": { name: constant.language.unit.vehicle }
+      "2": { name: constant.language.true.vehicle }
+      "3": { name: constant.language.false.vehicle }
+
+  type_builtins:
+    match: >-
+      (?x)
+        \b
+        (?:
+          (forallT)
+          |(Unit)
+          |(Bool)
+          |(Nat)
+          |(Int)
+          |(Rat)
+          |(Tensor)
+          |(List)
+          |(Index)
+          |(Type(\s+([0-9]+)))
+        )
+        \b
+    captures:
+      "1": { name: support.type.forall.vehicle }
+      "2": { name: support.type.unit.vehicle }
+      "3": { name: support.type.bool.vehicle }
+      "4": { name: support.type.nat.vehicle }
+      "5": { name: support.type.int.vehicle }
+      "6": { name: support.type.rat.vehicle }
+      "7": { name: support.type.tensor.vehicle }
+      "8": { name: support.type.list.vehicle }
+      "9": { name: support.type.index.vehicle }
+      "10": { name: support.type.type.vehicle }
+      "12": { name: support.type.universe.vehicle }
+
+  operator_builtins:
+    match: >-
+      (?x)
+        (?<![\p{S}\p{P}])
+        (?:
+           (->)
+          |(\.)
+          |(:)
+          |(\\)
+          |(=>)
+          |(==)
+          |(!=)
+          |(<=)
+          |(<)
+          |(>=)
+          |(>)
+          |(\*)
+          |(/)
+          |(\+)
+          |(-)
+          |(::)
+          |(!)
+          |(=)
+          |(and)
+          |(or)
+        )
+        (?![\p{S}\p{P}])
+    captures:
+      "1": { name: keyword.operator.arrow.vehicle }
+      "2": { name: keyword.operator.dot.vehicle }
+      "3": { name: keyword.operator.colon.vehicle }
+      "4": { name: keyword.operator.lambda.vehicle }
+      "5": { name: keyword.operator.implies.vehicle }
+      "6": { name: keyword.operator.equal.vehicle }
+      "7": { name: keyword.operator.distinct.vehicle }
+      "8": { name: keyword.operator.lte.vehicle }
+      "9": { name: keyword.operator.lt.vehicle }
+      "10": { name: keyword.operator.gte.vehicle }
+      "11": { name: keyword.operator.gt.vehicle }
+      "12": { name: keyword.operator.mul.vehicle }
+      "13": { name: keyword.operator.div.vehicle }
+      "14": { name: keyword.operator.add.vehicle }
+      "15": { name: keyword.operator.sub.vehicle }
+      "16": { name: keyword.operator.cons.vehicle }
+      "17": { name: keyword.operator.lookup.vehicle }
+      "18": { name: keyword.operator.define.vehicle }
+      "19": { name: keyword.operator.and.vehicle }
+      "20": { name: keyword.operator.or.vehicle }
 
   # Comments
   comments:
@@ -13,9 +138,14 @@ repository:
       - include: "#line_comments"
       - include: "#block_comments"
   line_comments:
+    begin: >-
+      (^[ \t]+)?(?=--+(?![\p{S}\p{P}&&[^(),;\[\]`{}_"']]))
+    beginCaptures:
+      "1": { name: punctuation.whitespace.comment.leading.vehicle }
+    end: '(?!\G)'
     patterns:
       - begin: "--"
-        captures:
+        beginCaptures:
           "0": { name: punctuation.definition.comment.vehicle }
         end: \n
         name: comment.line.double-dash.vehicle
@@ -35,12 +165,23 @@ repository:
       - include: "#float_literals"
       - include: "#integer_literals"
   float_literals:
-    comment: "Floats are decimal"
-    match: ([0-9]+\.[0-9]+)
+    match: >-
+      (?x)
+        \b
+        ([0-9]+\.[0-9]+)
+        \b
     captures:
       "0": { name: constant.numeric.floating.decimal.vehicle }
   integer_literals:
-    comment: "Integers are decimal"
-    match: ([0-9]+)
+    match: >-
+      (?x)
+        \b
+        ([0-9]+)
+        \b
     captures:
       "0": { name: constant.numeric.integral.decimal.vehicle }
+
+  # Holes
+  holes:
+    match: \b(\?[A-Za-z0-9_]*)\b
+    name: variable.other.hole.vehicle
