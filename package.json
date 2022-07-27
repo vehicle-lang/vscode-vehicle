@@ -1,0 +1,25 @@
+{
+    "name": "vehicle-syntax-highlighting",
+    "displayName": "Vehicle Syntax Highlighting",
+    "description": "Syntax Highlighting for Vehicle",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.69.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "vehicle",
+            "aliases": ["Vehicle", "vehicle"],
+            "extensions": [".vcl"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "vehicle",
+            "scopeName": "source.vehicle",
+            "path": "./syntaxes/vehicle.tmLanguage.json"
+        }]
+    }
+}
