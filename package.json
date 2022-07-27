@@ -32,9 +32,6 @@
         ]
     },
     "scripts": {
-        "pretest": "npm run build",
-        "prepublish": "npm run build",
-        "vscode:prepublish": "npm run build",
         "build": "npx js-yaml ./syntaxes/vehicle.tmLanguage.yml > ./syntaxes/vehicle.tmLanguage.json",
         "test": "npm run test-unit && npm run test-snap",
         "test-unit": "vscode-tmgrammar-test 'tests/**/*.test.vcl'",
