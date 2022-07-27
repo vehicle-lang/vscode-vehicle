@@ -1,0 +1,679 @@
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Full specification of the ACAS XU networks
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Taken from Appendix VI of "Reluplex: An Efficient SMT Solver for Verifying
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Deep Neural Networks" at https://arxiv.org/pdf/1702.01135.pdf
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Comments describing the properties are taken directly from the text.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Inputs and outputs
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- We first define the types of the input & output of the network and add
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- meaningful names for the indices.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Vehicle is dependently typed so we can specify the dimensions of the tensor,
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- as well as the type of data stored within it. This means that it impossible
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- to mess up indexing into tensors, e.g. if you changed
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- `distanceToIntruder = 0` to `distanceToIntruder = 5` the specification would
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- fail to type-check.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>type InputVector = Tensor Rat [5]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                ^^ source.vehicle
+>
+>distanceToIntruder = 0
+#^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>angleToIntruder    = 1
+#^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>intruderHeading    = 2
+#^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>speed              = 3
+#^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>intruderSpeed      = 4
+#^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>type OutputVector = Tensor Rat [5]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                 ^^ source.vehicle
+>
+>clearOfConflict = 0
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>weakLeft        = 1
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>weakRight       = 2
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>strongLeft      = 3
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>strongRight     = 4
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- The network
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Next we use the `network` keyword to declare the name and the type of the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- neural network we are verifying. The implementation is passed to the compiler
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- via a reference to the ONNX file at compile time.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>network acasXu : InputVector -> OutputVector
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Utilities
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- The value of the constant `pi`
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>pi : Rat
+#^^^^^^^^^ source.vehicle
+>pi = 3.141592
+#^^^^^ source.vehicle
+#     ^^^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+>
+>-- A constraint that says the network chooses output `i` when given the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- input `x`. We must necessarily provide a finite index that is less than 5
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- (i.e. of type Index 5). The `a ! b` operator lookups index `b` in tensor `a`.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>advises : Index 5 -> InputVector -> Bool
+#^^^^^^^^^^^^^^^^ source.vehicle
+#                ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>advises i x = forall j . i != j => acasXu x ! i < acasXu x ! j
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 1
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- If the intruder is distant and is significantly slower than the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- ownship, the score of a COC advisory will always be below a certain fixed
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- threshold.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: all 45 networks.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>intruderDistantAndSlower : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>intruderDistantAndSlower x =
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  x ! distanceToIntruder >= 55947.691 and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                            ^^^^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                     ^^^^^ source.vehicle
+>  x ! speed              >= 1145      and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                            ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                ^^^^^^^^^^ source.vehicle
+>  x ! intruderSpeed      <= 60
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                            ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property1 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property1 = forall x . intruderDistantAndSlower x =>
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  acasXu x ! clearOfConflict <= 1500
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 2
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- If the intruder is distant and is significantly slower than the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- ownship, the score of a COC advisory will never be maximal.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: N_{x,y} for all x ≥ 2 and for all y
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>property2 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property2 = forall x . intruderDistantAndSlower x =>
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  (exists j . (acasXu x ! j) > (acasXu x ! clearOfConflict))
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 3
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- If the intruder is directly ahead and is moving towards the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- ownship, the score for COC will not be minimal.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: all networks except N_{1,7}, N_{1,8}, and N_{1,9}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>directlyAhead : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>directlyAhead x =
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+>  1500  <= x ! distanceToIntruder <= 1800 and
+#^^ source.vehicle
+#  ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                         ^^^^^ source.vehicle
+>  -0.06 <= x ! angleToIntruder    <= 0.06
+#^^^ source.vehicle
+#   ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+>
+>movingTowards : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>movingTowards x =
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+>  x ! intruderHeading >= 3.10  and
+#^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                         ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                             ^^^^^^ source.vehicle
+>  x ! speed           >= 980   and
+#^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                         ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                            ^^^^^^^ source.vehicle
+>  x ! intruderSpeed   >= 960
+#^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                         ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property3 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property3 = forall x . directlyAhead x and movingTowards x =>
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  not (advises clearOfConflict x)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 4
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- If the intruder is directly ahead and is moving away from the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- ownship but at a lower speed than that of the ownship, the score for COC
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- will not be minimal.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: all networks except N_{1,7}, N_{1,8}, and N_{1,9}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>movingAway : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>movingAway x =
+#^^^^^^^^^^^^^^^ source.vehicle
+>          x ! intruderHeading == 0   and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                 ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                  ^^^^^^^ source.vehicle
+>  1000 <= x ! speed                  and
+#^^ source.vehicle
+#  ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  700  <= x ! intruderSpeed   <= 800
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                 ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property4 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property4 = forall x . directlyAhead x and movingAway x =>
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  not (advises clearOfConflict x)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 5
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- If the intruder is near and approaching from the left, the network
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- advises “strong right”.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: N_{1,1}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>nearAndApproachingFromLeft : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>nearAndApproachingFromLeft x =
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  250 <= x ! distanceToIntruder <= 400         and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                   ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                      ^^^^^^^^^^^^^ source.vehicle
+>  0.2 <= x ! angleToIntruder    <= 0.4         and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                   ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                      ^^^^^^^^^^^^^ source.vehicle
+>  -pi <= x ! intruderHeading    <= -pi + 0.005 and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                         ^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                              ^^^^^ source.vehicle
+>  100 <= x ! speed              <= 400         and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                   ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                      ^^^^^^^^^^^^^ source.vehicle
+>  0   <= x ! intruderSpeed      <= 400
+#^^ source.vehicle
+#  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                   ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property5 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property5 = forall x . nearAndApproachingFromLeft x => advises strongRight x
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 6
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- If the intruder is sufficiently far away, the network advises COC.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: N_{1,1}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>intruderFarAway : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>intruderFarAway x =
+#^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  12000 <= x ! distanceToIntruder <= 62000                                  and
+#^^ source.vehicle
+#  ^^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  (- pi <= x ! angleToIntruder <= -0.7 or 0.7 <= x ! angleToIntruder <= pi) and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                   ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                      ^^^^ source.vehicle
+#                                          ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  -pi   <= x ! intruderHeading    <= -pi + 0.005                            and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                           ^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  100   <= x ! speed              <= 1200                                   and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  0     <= x ! intruderSpeed      <= 1200
+#^^ source.vehicle
+#  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property6 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property6 = forall x . intruderFarAway x => advises clearOfConflict x
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 7
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- If vertical separation is large, the network will never advise a strong turn.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: N_{1,9}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>largeVerticalSeparation : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>largeVerticalSeparation x =
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  0    <= x ! distanceToIntruder <= 60760  and
+#^^ source.vehicle
+#  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                         ^^^^^^ source.vehicle
+>  -pi  <= x ! angleToIntruder    <= pi     and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  -pi  <= x ! intruderHeading    <= pi     and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  100  <= x ! speed              <= 1200   and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                        ^^^^^^^ source.vehicle
+>  0    <= x ! intruderSpeed      <= 1200
+#^^ source.vehicle
+#  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property7 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property7 = forall x . largeVerticalSeparation x =>
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  not (advises strongLeft x) and not (advises strongRight x)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 8
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- For a large vertical separation and a previous “weak left” advisory, the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- network will either output COC or continue advising “weak left”.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: N_{2,9}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>largeVerticalSeparationAndPreviousWeakLeft : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>largeVerticalSeparationAndPreviousWeakLeft x =
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  0    <= x ! distanceToIntruder <= 60760    and
+#^^ source.vehicle
+#  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                         ^^^^^^^^ source.vehicle
+>  -pi  <= x ! angleToIntruder    <= -0.75*pi and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                         ^^^^^^^^ source.vehicle
+>  -0.1 <= x ! intruderHeading    <= 0.1      and
+#^^^ source.vehicle
+#   ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                       ^^^^^^^^^^ source.vehicle
+>  600  <= x ! speed              <= 1200     and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                        ^^^^^^^^^ source.vehicle
+>  600  <= x ! intruderSpeed      <= 1200
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property8 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property8 = forall x . largeVerticalSeparationAndPreviousWeakLeft x =>
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  (advises clearOfConflict x) or (advises weakLeft x)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 9
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Even if the previous advisory was “weak right”, the presence of a nearby
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- intruder will cause the network to output a “strong left” advisory instead.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: N_{3,3}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>previousWeakRightAndNearbyIntruder : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>previousWeakRightAndNearbyIntruder x =
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  2000 <= x ! distanceToIntruder <= 7000       and
+#^^ source.vehicle
+#  ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                        ^^^^^^^^^^^ source.vehicle
+>  -0.4 <= x ! angleToIntruder    <= -0.14      and
+#^^^ source.vehicle
+#   ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                         ^^^^^^^^^^ source.vehicle
+>  -pi  <= x ! intruderHeading    <= -pi + 0.01 and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                          ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                              ^^^^^ source.vehicle
+>  100  <= x ! speed              <= 150        and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                       ^^^^^^^^^^^^ source.vehicle
+>  0    <= x ! intruderSpeed      <= 150
+#^^ source.vehicle
+#  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property9 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^ source.vehicle
+>property9 = forall x . previousWeakRightAndNearbyIntruder x =>
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  advises strongLeft x
+#^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Property 10
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- For a far away intruder, the network advises COC.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Tested on: N_{4,5}.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>intruderFarAway2 : InputVector -> Bool
+#^^^^^^^^^^^^^^^ source.vehicle
+#               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                ^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>intruderFarAway2 x =
+#^^^^^^^^^^^^^^^ source.vehicle
+#               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                ^^^^^ source.vehicle
+>  36000 <= x ! distanceToIntruder <= 60760       and
+#^^ source.vehicle
+#  ^^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                          ^^^^^^^^^^^ source.vehicle
+>  0.7   <= x ! angleToIntruder    <= pi          and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>  -pi   <= x ! intruderHeading    <= -pi + 0.01  and
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                           ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                               ^^^^^^ source.vehicle
+>  900   <= x ! speed              <= 1200        and
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                         ^^^^^^^^^^^^ source.vehicle
+>  600   <= x ! intruderSpeed      <= 1200
+#^^ source.vehicle
+#  ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>property10 : Bool
+#^^^^^^^^ source.vehicle
+#        ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#          ^^^^^^^^ source.vehicle
+>property10 = forall x . intruderFarAway2 x => advises clearOfConflict x
+#^^^^^^^^ source.vehicle
+#        ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                       ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle

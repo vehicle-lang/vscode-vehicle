@@ -10,16 +10,39 @@
         "Programming Languages"
     ],
     "contributes": {
-        "languages": [{
-            "id": "vehicle",
-            "aliases": ["Vehicle", "vehicle"],
-            "extensions": [".vcl"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "vehicle",
-            "scopeName": "source.vehicle",
-            "path": "./syntaxes/vehicle.tmLanguage.json"
-        }]
+        "languages": [
+            {
+                "id": "vehicle",
+                "aliases": [
+                    "Vehicle",
+                    "vehicle"
+                ],
+                "extensions": [
+                    ".vcl"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "vehicle",
+                "scopeName": "source.vehicle",
+                "path": "./syntaxes/vehicle.tmLanguage.json"
+            }
+        ]
+    },
+    "scripts": {
+        "pretest": "npm run build",
+        "prepublish": "npm run build",
+        "vscode:prepublish": "npm run build",
+        "build": "npx js-yaml ./syntaxes/vehicle.tmLanguage.yml > ./syntaxes/vehicle.tmLanguage.json",
+        "test": "npm run test-unit && npm run test-snap",
+        "test-unit": "vscode-tmgrammar-test 'tests/**/*.test.vcl'",
+        "test-snap": "vscode-tmgrammar-snap 'tests/snap/**/*.vcl'",
+        "test-snap-update": "vscode-tmgrammar-snap --updateSnapshot 'tests/snap/**/*.vcl'"
+    },
+    "devDependencies": {
+        "js-yaml": "^4.1.0",
+        "vscode-tmgrammar-test": "^0.1.1"
     }
 }

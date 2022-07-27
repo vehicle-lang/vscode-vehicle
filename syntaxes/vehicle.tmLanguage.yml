@@ -1,0 +1,46 @@
+name: Vehicle
+scopeName: source.vehicle
+
+patterns:
+  - include: "#comments"
+  - include: "#numeric_literals"
+
+repository:
+
+  # Comments
+  comments:
+    patterns:
+      - include: "#line_comments"
+      - include: "#block_comments"
+  line_comments:
+    patterns:
+      - begin: "--"
+        captures:
+          "0": { name: punctuation.definition.comment.vehicle }
+        end: \n
+        name: comment.line.double-dash.vehicle
+  block_comments:
+    begin: '\{-'
+    captures:
+      "0": { name: punctuation.definition.comment.vehicle }
+    end: '-\}'
+    name: comment.block.vehicle
+    patterns:
+      - include: "#block_comments"
+
+  # Numeric Literals
+  numeric_literals:
+    patterns:
+      # Need to try to parse floating literals first, to avoid having leftover dots.
+      - include: "#float_literals"
+      - include: "#integer_literals"
+  float_literals:
+    comment: "Floats are decimal"
+    match: ([0-9]+\.[0-9]+)
+    captures:
+      "0": { name: constant.numeric.floating.decimal.vehicle }
+  integer_literals:
+    comment: "Integers are decimal"
+    match: ([0-9]+)
+    captures:
+      "0": { name: constant.numeric.integral.decimal.vehicle }

@@ -1,0 +1,62 @@
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Inputs and outputs
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>type InputVector = Tensor Rat [2]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                ^^ source.vehicle
+>
+>currentSensor  = 0
+#^^^^^^^^^^^^^^^^^ source.vehicle
+#                 ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>previousSensor = 1
+#^^^^^^^^^^^^^^^^^ source.vehicle
+#                 ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Network
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>network controller : InputVector -> Tensor Rat [1]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                                 ^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Safety property
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>safeInput : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>safeInput x = forall i . -3.25 <= x ! i <= 3.25
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                          ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                              ^^^^^^^^^^^^^ source.vehicle
+#                                           ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+>
+>safeOutput : InputVector -> Bool
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>safeOutput x = -1.25 < controller x ! 0 + 2 * (x ! currentSensor) - (x ! previousSensor) < 1.25
+#^^^^^^^^^^^^^^^^ source.vehicle
+#                ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                    ^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                      ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                       ^^^ source.vehicle
+#                                          ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                                           ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+>
+>safe : Bool
+#^^^^^^^^^^^^ source.vehicle
+>safe = forall x . safeInput x => safeOutput x
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
