@@ -3,8 +3,14 @@
   "displayName": "Vehicle Syntax Highlighting",
   "description": "Syntax Highlighting for Vehicle",
   "version": "0.0.1",
+  "publisher": "wenkokke",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.69.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vehicle-lang/vscode-vehicle.git"
   },
   "categories": [
     "Programming Languages"
