@@ -95,6 +95,7 @@ repository:
           |(Nat)
           |(Int)
           |(Rat)
+          |(Vector)
           |(Tensor)
           |(List)
           |(Index)
@@ -108,10 +109,11 @@ repository:
       "4": { name: support.type.nat.vehicle }
       "5": { name: support.type.int.vehicle }
       "6": { name: support.type.rat.vehicle }
-      "7": { name: support.type.tensor.vehicle }
-      "8": { name: support.type.list.vehicle }
-      "9": { name: support.type.index.vehicle }
-      "10": { name: support.type.type.vehicle }
+      "7": { name: support.type.vector.vehicle }
+      "8": { name: support.type.tensor.vehicle }
+      "9": { name: support.type.list.vehicle }
+      "10": { name: support.type.index.vehicle }
+      "11": { name: support.type.type.vehicle }
       "12": { name: support.type.universe.vehicle }
 
   operator_builtins:
