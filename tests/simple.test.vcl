@@ -16,8 +16,9 @@ implicit parameter m : Nat
 -- <-------- keyword.other.declaration.implicit.vehicle
 --       ^^^^^^^^^ keyword.other.declaration.parameter.vehicle
 
-type InputVector = Tensor Rat [5]
+type InputVector = Vector Rat 5
 -- <---- keyword.other.declaration.type.vehicle
+--                 ^^^^^^ support.type.vector.vehicle
 
 
 someFunction : Bool -> Unit
