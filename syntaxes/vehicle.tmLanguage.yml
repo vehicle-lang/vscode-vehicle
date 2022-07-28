@@ -114,7 +114,7 @@ repository:
       "9": { name: support.type.list.vehicle }
       "10": { name: support.type.index.vehicle }
       "11": { name: support.type.type.vehicle }
-      "12": { name: support.type.universe.vehicle }
+      "13": { name: support.type.universe.vehicle }
 
   operator_builtins:
     match: >-

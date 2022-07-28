@@ -29,11 +29,11 @@ someFunction : Bool -> Unit
 
 -- This is a line comment.
 -- <-- punctuation.definition.comment.vehicle
---^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.vehicle
+-- ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.vehicle
 
 {- This is a block comment. -}
 -- <-- punctuation.definition.comment.vehicle
---^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.vehicle
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.vehicle
 --                          ^^ punctuation.definition.comment.vehicle
 
 
@@ -46,6 +46,4 @@ someFloating = 3.14
 someUniverse : Type 12
 --           ^ keyword.operator.colon.vehicle
 --             ^^^^ support.type.type.vehicle
---          ^ source.vehicle
---            ^ source.vehicle
 --                  ^^ support.type.universe.vehicle
