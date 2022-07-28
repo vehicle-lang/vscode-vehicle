@@ -41,6 +41,7 @@
     "pretest": "npm run build",
     "prepublish": "npm run build",
     "vscode:prepublish": "npm run build",
+    "vscode:publish": "npm test && vsce package && vsce publish",
     "build": "npx js-yaml ./syntaxes/vehicle.tmLanguage.yml > ./syntaxes/vehicle.tmLanguage.json",
     "test": "npm run test-tmgrammar && npm run test-tmgrammar-snap",
     "test-tmgrammar": "vscode-tmgrammar-test 'tests/**/*.test.vcl'",
