@@ -44,4 +44,8 @@ someFloating = 3.14
 --             ^^ constant.numeric.floating.decimal.vehicle
 
 someUniverse : Type 12
+--           ^ keyword.operator.colon.vehicle
+--             ^^^^ support.type.type.vehicle
+--          ^ source.vehicle
+--            ^ source.vehicle
 --                  ^^ support.type.universe.vehicle
