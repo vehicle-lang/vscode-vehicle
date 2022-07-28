@@ -8,6 +8,10 @@ Syntax Highlighting for the Vehicle language.
 
 ## Release Notes
 
+### 0.0.2
+
+Add support for the Vector keyword.
+
 ### 0.0.1
 
 Initial release of Vehicle Syntax Highlighting.
