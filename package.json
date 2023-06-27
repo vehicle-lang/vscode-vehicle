@@ -2,7 +2,7 @@
   "name": "vehicle-syntax-highlighting",
   "displayName": "Vehicle Syntax Highlighting",
   "description": "Syntax Highlighting for Vehicle",
-  "version": "0.0.2",
+  "version": "0.5.0",
   "publisher": "wenkokke",
   "license": "MIT",
   "engines": {
