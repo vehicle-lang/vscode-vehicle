@@ -12,6 +12,7 @@ repository:
   # Keywords
   keywords:
     patterns:
+      - include: "#annotation_keywords"
       - include: "#declaration_keywords"
       - include: "#control_keywords"
 
@@ -20,18 +21,33 @@ repository:
       (?x)
         ^
         (?:
-          (network)
-          |(dataset)
-          |(((implicit)\s+)?(parameter))
-          |(type)
+          (type)
+        )
+        \b
+    captures:
+      "1": { name: keyword.other.declaration.type.vehicle }
+
+  annotation_keywords:
+    match: >-
+      (?x)
+        ^
+        (?:
+           (@network)
+          |(@dataset)
+          |(@parameter)
+          |(@property)
+          |(@postulate)
+          |(@noinline)
         )
         \b
     captures:
       "1": { name: keyword.other.declaration.network.vehicle }
       "2": { name: keyword.other.declaration.dataset.vehicle }
-      "5": { name: keyword.other.declaration.implicit.vehicle }
-      "6": { name: keyword.other.declaration.parameter.vehicle }
-      "7": { name: keyword.other.declaration.type.vehicle }
+      "3": { name: keyword.other.declaration.implicit.vehicle }
+      "4": { name: keyword.other.declaration.parameter.vehicle }
+      "5": { name: keyword.other.declaration.property.vehicle }
+      "6": { name: keyword.other.declaration.postulate.vehicle }
+      "7": { name: keyword.other.declaration.noinline.vehicle }
 
   control_keywords:
     match: >-
@@ -58,7 +74,6 @@ repository:
       "7": { name: keyword.control.then.vehicle }
       "8": { name: keyword.control.else.vehicle }
 
-
   # Builtins
   builtins:
     patterns:
@@ -74,15 +89,28 @@ repository:
           (\(\))
           |(True)
           |(False)
+          |(nil)
           |(not)
           |(map)
+          |(dfold)
           |(fold)
+          |(indices)
+          |(fromNat)
+          |(fromInt)
         )
         \b
     captures:
       "1": { name: constant.language.unit.vehicle }
       "2": { name: constant.language.true.vehicle }
       "3": { name: constant.language.false.vehicle }
+      "4": { name: constant.language.nil.vehicle }
+      "5": { name: constant.language.not.vehicle }
+      "6": { name: constant.language.map.vehicle }
+      "7": { name: constant.language.dfold.vehicle }
+      "8": { name: constant.language.fold.vehicle }
+      "9": { name: constant.language.indices.vehicle }
+      "10": { name: constant.language.fromNat.vehicle }
+      "11": { name: constant.language.fromInt.vehicle }
 
   type_builtins:
     match: >-
@@ -99,7 +127,7 @@ repository:
           |(Tensor)
           |(List)
           |(Index)
-          |(Type(\s+([0-9]+)))
+          |(Type(\s*([0-9]+)?))
         )
         \b
     captures:
