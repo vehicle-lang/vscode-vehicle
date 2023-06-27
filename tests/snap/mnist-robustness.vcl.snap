@@ -83,23 +83,23 @@
 >-- score for each of the digits 0 to 9.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->network mnist : Image -> Tensor Rat [10]
-#^^^^^^^ source.vehicle keyword.other.declaration.network.vehicle
-#       ^^^^^^^ source.vehicle
-#              ^ source.vehicle keyword.operator.colon.vehicle
-#               ^^^^^^^ source.vehicle
-#                      ^^ source.vehicle keyword.operator.arrow.vehicle
-#                        ^ source.vehicle
-#                         ^^^^^^ source.vehicle support.type.tensor.vehicle
-#                               ^ source.vehicle
-#                                ^^^ source.vehicle support.type.rat.vehicle
-#                                   ^^ source.vehicle
-#                                     ^^ source.vehicle constant.numeric.integral.decimal.vehicle
-#                                       ^^ source.vehicle
+>@network
+#^^^^^^^^ source.vehicle keyword.other.declaration.network.vehicle
+>classifier : Image -> Vector Rat 10
+#^^^^^^^^^^^ source.vehicle
+#           ^ source.vehicle keyword.operator.colon.vehicle
+#            ^^^^^^^ source.vehicle
+#                   ^^ source.vehicle keyword.operator.arrow.vehicle
+#                     ^ source.vehicle
+#                      ^^^^^^ source.vehicle support.type.vector.vehicle
+#                            ^ source.vehicle
+#                             ^^^ source.vehicle support.type.rat.vehicle
+#                                ^ source.vehicle
+#                                 ^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
->-- The network advises that input image `x` has label `i` if the score
+>-- The classifier advises that input image `x` has label `i` if the score
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >-- for label `i` is greater than the score of any other label `j`.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
@@ -112,7 +112,7 @@
 #                         ^^ source.vehicle keyword.operator.arrow.vehicle
 #                           ^ source.vehicle
 #                            ^^^^ source.vehicle support.type.bool.vehicle
->advises x i = forall j . j != i => mnist x ! i > mnist x ! j
+>advises x i = forall j . j != i => classifier x ! i > classifier x ! j
 #^^^^^^^^^^^^ source.vehicle
 #            ^ source.vehicle keyword.operator.define.vehicle
 #             ^ source.vehicle
@@ -123,13 +123,13 @@
 #                           ^^ source.vehicle keyword.operator.distinct.vehicle
 #                             ^^^ source.vehicle
 #                                ^^ source.vehicle keyword.operator.implies.vehicle
-#                                  ^^^^^^^^^ source.vehicle
-#                                           ^ source.vehicle keyword.operator.lookup.vehicle
-#                                            ^^^ source.vehicle
-#                                               ^ source.vehicle keyword.operator.gt.vehicle
-#                                                ^^^^^^^^^ source.vehicle
-#                                                         ^ source.vehicle keyword.operator.lookup.vehicle
-#                                                          ^^^ source.vehicle
+#                                  ^^^^^^^^^^^^^^ source.vehicle
+#                                                ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                 ^^^ source.vehicle
+#                                                    ^ source.vehicle keyword.operator.gt.vehicle
+#                                                     ^^^^^^^^^^^^^^ source.vehicle
+#                                                                   ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                                    ^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -150,12 +150,13 @@
 >-- time rather than be fixed in the specification.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->parameter epsilon : Rat
-#^^^^^^^^^ source.vehicle keyword.other.declaration.parameter.vehicle
-#         ^^^^^^^^^ source.vehicle
-#                  ^ source.vehicle keyword.operator.colon.vehicle
-#                   ^ source.vehicle
-#                    ^^^ source.vehicle support.type.rat.vehicle
+>@parameter
+#^^^^^^^^^^ source.vehicle keyword.other.declaration.parameter.vehicle
+>epsilon : Rat
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.colon.vehicle
+#         ^ source.vehicle
+#          ^^^ source.vehicle support.type.rat.vehicle
 >
 >-- Next we define what it means for an image `x` to be in a ball of
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -267,26 +268,29 @@
 >-- We first specify parameter `n` the size of the training dataset. Unlike
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- the earlier parameter `epsilon`, `n` is marked as `implicit` which means
-#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- that it does not need to be provided manually but instead will be
+>-- the earlier parameter `epsilon`, we set the `infer` option of the
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- automatically inferred by the compiler. In this case it will be inferred
+>-- parameter `n` to 'True'. This means that it does not need to be provided
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- from the training dataset passed.
+>--  manually but instead will be automatically inferred by the compiler.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->implicit parameter n : Nat
-#^^^^^^^^ source.vehicle keyword.other.declaration.implicit.vehicle
-#        ^ source.vehicle
-#         ^^^^^^^^^ source.vehicle keyword.other.declaration.parameter.vehicle
-#                  ^^^ source.vehicle
-#                     ^ source.vehicle keyword.operator.colon.vehicle
-#                      ^ source.vehicle
-#                       ^^^ source.vehicle support.type.nat.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- In this case it will be inferred from the training datasets.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>@parameter(infer=True)
+#^^^^^^^^^^ source.vehicle keyword.other.declaration.parameter.vehicle
+#          ^^^^^^ source.vehicle
+#                ^ source.vehicle keyword.operator.define.vehicle
+#                 ^^^^ source.vehicle constant.language.true.vehicle
+#                     ^^ source.vehicle
+>n : Nat
+#^^ source.vehicle
+#  ^ source.vehicle keyword.operator.colon.vehicle
+#   ^ source.vehicle
+#    ^^^ source.vehicle support.type.nat.vehicle
 >
 >-- We next declare two datasets, the training images and the corresponding
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -297,20 +301,23 @@
 >-- to enforce that they are the same size.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->dataset trainingImages : Tensor Image [n]
-#^^^^^^^ source.vehicle keyword.other.declaration.dataset.vehicle
-#       ^^^^^^^^^^^^^^^^ source.vehicle
-#                       ^ source.vehicle keyword.operator.colon.vehicle
-#                        ^ source.vehicle
-#                         ^^^^^^ source.vehicle support.type.tensor.vehicle
-#                               ^^^^^^^^^^^ source.vehicle
->dataset trainingLabels : Tensor Label [n]
-#^^^^^^^ source.vehicle keyword.other.declaration.dataset.vehicle
-#       ^^^^^^^^^^^^^^^^ source.vehicle
-#                       ^ source.vehicle keyword.operator.colon.vehicle
-#                        ^ source.vehicle
-#                         ^^^^^^ source.vehicle support.type.tensor.vehicle
-#                               ^^^^^^^^^^^ source.vehicle
+>@dataset
+#^^^^^^^^ source.vehicle keyword.other.declaration.dataset.vehicle
+>trainingImages : Vector Image n
+#^^^^^^^^^^^^^^^ source.vehicle
+#               ^ source.vehicle keyword.operator.colon.vehicle
+#                ^ source.vehicle
+#                 ^^^^^^ source.vehicle support.type.vector.vehicle
+#                       ^^^^^^^^^ source.vehicle
+>
+>@dataset
+#^^^^^^^^ source.vehicle keyword.other.declaration.dataset.vehicle
+>trainingLabels : Vector Label n
+#^^^^^^^^^^^^^^^ source.vehicle
+#               ^ source.vehicle keyword.operator.colon.vehicle
+#                ^ source.vehicle
+#                 ^^^^^^ source.vehicle support.type.vector.vehicle
+#                       ^^^^^^^^^ source.vehicle
 >
 >-- We then say that the network is robust if it is robust around every pair
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -321,9 +328,9 @@
 >-- keyword when quantifying over the index `i` in the dataset. Whereas `forall`
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- would return a single `Bool`, `foreach` returns a `Tensor` of booleans,
+>-- would return a single `Bool`, `foreach` constructs a `Vector` of booleans,
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >-- ensuring that Vehicle will report on the verification status of each image in
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
@@ -336,24 +343,26 @@
 >-- state of affairs which is unlikely to be true.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->robust : Tensor Bool [n]
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
+>robust : Vector Bool n
 #^^^^^^^ source.vehicle
 #       ^ source.vehicle keyword.operator.colon.vehicle
 #        ^ source.vehicle
-#         ^^^^^^ source.vehicle support.type.tensor.vehicle
+#         ^^^^^^ source.vehicle support.type.vector.vehicle
 #               ^ source.vehicle
 #                ^^^^ source.vehicle support.type.bool.vehicle
-#                    ^^^^^ source.vehicle
->robust = foreach i .
+#                    ^^^ source.vehicle
+>robust = foreach i . robustAround (trainingImages ! i) (trainingLabels ! i)
 #^^^^^^^ source.vehicle
 #       ^ source.vehicle keyword.operator.define.vehicle
 #        ^ source.vehicle
 #         ^^^^^^^ source.vehicle keyword.control.foreach.vehicle
 #                ^^^ source.vehicle
 #                   ^ source.vehicle keyword.operator.dot.vehicle
->  robustAround (trainingImages ! i) (trainingLabels ! i)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                               ^ source.vehicle keyword.operator.lookup.vehicle
-#                                ^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                    ^ source.vehicle keyword.operator.lookup.vehicle
-#                                                     ^^^^ source.vehicle
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                  ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                   ^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                       ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                                        ^^^^ source.vehicle
+>

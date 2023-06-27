@@ -1,0 +1,10 @@
+>@parameter
+#^^^^^^^^^^ source.vehicle keyword.other.declaration.parameter.vehicle
+>n : Index 5
+#^^ source.vehicle
+#  ^ source.vehicle keyword.operator.colon.vehicle
+#   ^ source.vehicle
+#    ^^^^^ source.vehicle support.type.index.vehicle
+#         ^ source.vehicle
+#          ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>

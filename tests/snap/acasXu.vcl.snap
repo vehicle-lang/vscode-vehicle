@@ -19,26 +19,55 @@
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- Inputs and outputs
+>-- Utilities
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+#  ^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->-- We first define the types of the input & output of the network and add
+>-- The value of the constant `pi`.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- meaningful names for the indices.
-#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>pi = 3.141592
+#^^^ source.vehicle
+#   ^ source.vehicle keyword.operator.define.vehicle
+#    ^ source.vehicle
+#     ^^^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
 >
->-- Vehicle is dependently typed so we can specify the dimensions of the tensor,
+>--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- as well as the type of data stored within it. This means that it impossible
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Inputs
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- We first define a new name for the type of inputs of the network.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- In particular, it takes inputs of the form of a vector of 5 rational numbers.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>type InputVector = Vector Rat 5
+#^^^^ source.vehicle keyword.other.declaration.type.vehicle
+#    ^^^^^^^^^^ source.vehicle
+#              ^^ source.vehicle keyword.operator.or.vehicle
+#                ^ source.vehicle
+#                 ^ source.vehicle keyword.operator.define.vehicle
+#                  ^ source.vehicle
+#                   ^^^^^^ source.vehicle support.type.vector.vehicle
+#                         ^ source.vehicle
+#                          ^^^ source.vehicle support.type.rat.vehicle
+#                             ^ source.vehicle
+#                              ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>-- Next we add meaningful names for the indices.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- The fact that all vector types come annotated with their size means that it
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- to mess up indexing into tensors, e.g. if you changed
+>-- is impossible to mess up indexing into vectors, e.g. if you changed
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >-- `distanceToIntruder = 0` to `distanceToIntruder = 5` the specification would
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
@@ -46,59 +75,77 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->type InputVector = Tensor Rat [5]
-#^^^^ source.vehicle keyword.other.declaration.type.vehicle
-#    ^^^^^^^^^^ source.vehicle
-#              ^^ source.vehicle keyword.operator.or.vehicle
-#                ^ source.vehicle
-#                 ^ source.vehicle keyword.operator.define.vehicle
-#                  ^ source.vehicle
-#                   ^^^^^^ source.vehicle support.type.tensor.vehicle
-#                         ^ source.vehicle
-#                          ^^^ source.vehicle support.type.rat.vehicle
-#                             ^^ source.vehicle
-#                               ^ source.vehicle constant.numeric.integral.decimal.vehicle
-#                                ^^ source.vehicle
+>distanceToIntruder = 0   -- measured in metres
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                      ^^^ source.vehicle
+#                         ^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#                           ^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>angleToIntruder    = 1   -- measured in radians
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                      ^^^ source.vehicle
+#                         ^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#                           ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>intruderHeading    = 2   -- measured in radians
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                      ^^^ source.vehicle
+#                         ^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#                           ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>speed              = 3   -- measured in metres/second
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                      ^^^ source.vehicle
+#                         ^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>intruderSpeed      = 4   -- measured in meters/second
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^ source.vehicle
+#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                      ^^^ source.vehicle
+#                         ^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->distanceToIntruder = 0
-#^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                   ^ source.vehicle keyword.operator.define.vehicle
-#                    ^ source.vehicle
-#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
->angleToIntruder    = 1
-#^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                   ^ source.vehicle keyword.operator.define.vehicle
-#                    ^ source.vehicle
-#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
->intruderHeading    = 2
-#^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                   ^ source.vehicle keyword.operator.define.vehicle
-#                    ^ source.vehicle
-#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
->speed              = 3
-#^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                   ^ source.vehicle keyword.operator.define.vehicle
-#                    ^ source.vehicle
-#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
->intruderSpeed      = 4
-#^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                   ^ source.vehicle keyword.operator.define.vehicle
-#                    ^ source.vehicle
-#                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Outputs
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->type OutputVector = Tensor Rat [5]
+>-- Outputs are also a vector of 5 rationals. Each one representing the score
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- for the 5 available courses of action.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>type OutputVector = Vector Rat 5
 #^^^^ source.vehicle keyword.other.declaration.type.vehicle
 #    ^^^^^^^^^^^ source.vehicle
 #               ^^ source.vehicle keyword.operator.or.vehicle
 #                 ^ source.vehicle
 #                  ^ source.vehicle keyword.operator.define.vehicle
 #                   ^ source.vehicle
-#                    ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                    ^^^^^^ source.vehicle support.type.vector.vehicle
 #                          ^ source.vehicle
 #                           ^^^ source.vehicle support.type.rat.vehicle
-#                              ^^ source.vehicle
-#                                ^ source.vehicle constant.numeric.integral.decimal.vehicle
-#                                 ^^ source.vehicle
+#                              ^ source.vehicle
+#                               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>-- Again we define meaningful names for the indices into output vectors.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
 >clearOfConflict = 0
 #^^^^^^^^^^^^^^^^ source.vehicle
@@ -133,9 +180,9 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->-- Next we use the `network` keyword to declare the name and the type of the
+>-- Next we use the `network` annotation to declare the name and the type of the
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >-- neural network we are verifying. The implementation is passed to the compiler
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
@@ -143,37 +190,252 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->network acasXu : InputVector -> OutputVector
-#^^^^^^^ source.vehicle keyword.other.declaration.network.vehicle
-#       ^^^^^^^^ source.vehicle
-#               ^ source.vehicle keyword.operator.colon.vehicle
-#                ^^^^^^^^^^ source.vehicle
-#                          ^^ source.vehicle keyword.operator.or.vehicle
-#                            ^ source.vehicle
-#                             ^^ source.vehicle keyword.operator.arrow.vehicle
-#                               ^^^^^^^^^^^ source.vehicle
-#                                          ^^ source.vehicle keyword.operator.or.vehicle
+>@network
+#^^^^^^^^ source.vehicle keyword.other.declaration.network.vehicle
+>acasXu : InputVector -> OutputVector
+#^^^^^^^ source.vehicle
+#       ^ source.vehicle keyword.operator.colon.vehicle
+#        ^^^^^^^^^^ source.vehicle
+#                  ^^ source.vehicle keyword.operator.or.vehicle
+#                    ^ source.vehicle
+#                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                       ^^^^^^^^^^^ source.vehicle
+#                                  ^^ source.vehicle keyword.operator.or.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- Utilities
+>-- Normalisation
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+#  ^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->-- The value of the constant `pi`
+>-- As is common in machine learning, the network operates over
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->pi : Rat
-#^^^ source.vehicle
-#   ^ source.vehicle keyword.operator.colon.vehicle
-#    ^ source.vehicle
-#     ^^^ source.vehicle support.type.rat.vehicle
->pi = 3.141592
-#^^^ source.vehicle
-#   ^ source.vehicle keyword.operator.define.vehicle
-#    ^ source.vehicle
-#     ^^^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- normalised values, rather than values in the problem space
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- (e.g. using standard units like m/s).
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- This is an issue for us, as we would like to write our specification in
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- terms of the problem space values .
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Therefore before applying the network, we first have to normalise
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- the values in the problem space.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- For clarity, we therefore define a new type synonym
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- for unnormalised input vectors which are in the problem space.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>type UnnormalisedInputVector = Vector Rat 5
+#^^^^ source.vehicle keyword.other.declaration.type.vehicle
+#    ^^^^ source.vehicle
+#        ^^ source.vehicle keyword.operator.or.vehicle
+#          ^^^^^^^^^^^^^^^^ source.vehicle
+#                          ^^ source.vehicle keyword.operator.or.vehicle
+#                            ^ source.vehicle
+#                             ^ source.vehicle keyword.operator.define.vehicle
+#                              ^ source.vehicle
+#                               ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                     ^ source.vehicle
+#                                      ^^^ source.vehicle support.type.rat.vehicle
+#                                         ^ source.vehicle
+#                                          ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>-- Next we define the minimum and maximum values that each input can take.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- These correspond to the range of the inputs that the network is designed
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- to work over.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>minimumInputValues : UnnormalisedInputVector
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.colon.vehicle
+#                    ^^^^ source.vehicle
+#                        ^^ source.vehicle keyword.operator.or.vehicle
+#                          ^^^^^^^^^^^^^^^^ source.vehicle
+#                                          ^^ source.vehicle keyword.operator.or.vehicle
+>minimumInputValues = [0,0,0,0,0]
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^^ source.vehicle
+#                      ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                       ^ source.vehicle
+#                        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                         ^ source.vehicle
+#                          ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                           ^ source.vehicle
+#                            ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                             ^ source.vehicle
+#                              ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                               ^^ source.vehicle
+>
+>maximumInputValues : UnnormalisedInputVector
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.colon.vehicle
+#                    ^^^^ source.vehicle
+#                        ^^ source.vehicle keyword.operator.or.vehicle
+#                          ^^^^^^^^^^^^^^^^ source.vehicle
+#                                          ^^ source.vehicle keyword.operator.or.vehicle
+>maximumInputValues = [60261.0, 2*pi, 2*pi, 1100.0, 1200.0]
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^^ source.vehicle
+#                      ^^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                             ^^ source.vehicle
+#                               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                ^ source.vehicle keyword.operator.mul.vehicle
+#                                 ^^^^ source.vehicle
+#                                     ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                      ^ source.vehicle keyword.operator.mul.vehicle
+#                                       ^^^^ source.vehicle
+#                                           ^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                                 ^^ source.vehicle
+#                                                   ^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                                         ^^ source.vehicle
+>
+>-- We can therefore define a simple predicate saying whether a given input
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- vector is in the right range.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>validInput : UnnormalisedInputVector -> Bool
+#^^^^^^^^^^^ source.vehicle
+#           ^ source.vehicle keyword.operator.colon.vehicle
+#            ^^^^ source.vehicle
+#                ^^ source.vehicle keyword.operator.or.vehicle
+#                  ^^^^^^^^^^^^^^^^ source.vehicle
+#                                  ^^ source.vehicle keyword.operator.or.vehicle
+#                                    ^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                       ^ source.vehicle
+#                                        ^^^^ source.vehicle support.type.bool.vehicle
+>validInput x = forall i . minimumInputValues ! i <= x ! i <= maximumInputValues ! i
+#^^^^^^^^^^^^^ source.vehicle
+#             ^ source.vehicle keyword.operator.define.vehicle
+#              ^ source.vehicle
+#               ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                     ^^^ source.vehicle
+#                        ^ source.vehicle keyword.operator.dot.vehicle
+#                         ^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                             ^ source.vehicle keyword.operator.lookup.vehicle
+#                                              ^^^ source.vehicle
+#                                                 ^^ source.vehicle keyword.operator.lte.vehicle
+#                                                   ^^^ source.vehicle
+#                                                      ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                       ^^^ source.vehicle
+#                                                          ^^ source.vehicle keyword.operator.lte.vehicle
+#                                                            ^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                                ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                                                 ^^^ source.vehicle
+>
+>-- Then the mean values that will be used to scale the inputs.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>meanScalingValues : UnnormalisedInputVector
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle keyword.operator.colon.vehicle
+#                   ^^^^ source.vehicle
+#                       ^^ source.vehicle keyword.operator.or.vehicle
+#                         ^^^^^^^^^^^^^^^^ source.vehicle
+#                                         ^^ source.vehicle keyword.operator.or.vehicle
+>meanScalingValues = [19791.091, 0.0, 0.0, 650.0, 600.0]
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle keyword.operator.define.vehicle
+#                   ^^ source.vehicle
+#                     ^^^^^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                              ^^ source.vehicle
+#                                ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                   ^^ source.vehicle
+#                                     ^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                        ^^ source.vehicle
+#                                          ^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                               ^^ source.vehicle
+#                                                 ^^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                                      ^^ source.vehicle
+>
+>-- We can now define the normalisation function that takes an input vector and
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- returns the unnormalised version.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>normalise : UnnormalisedInputVector -> InputVector
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^ source.vehicle
+#          ^ source.vehicle keyword.operator.colon.vehicle
+#           ^^^^ source.vehicle
+#               ^^ source.vehicle keyword.operator.or.vehicle
+#                 ^^^^^^^^^^^^^^^^ source.vehicle
+#                                 ^^ source.vehicle keyword.operator.or.vehicle
+#                                   ^ source.vehicle
+#                                    ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                      ^^^^^^^^^^ source.vehicle
+#                                                ^^ source.vehicle keyword.operator.or.vehicle
+>normalise x = foreach i .
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^^ source.vehicle
+#            ^ source.vehicle keyword.operator.define.vehicle
+#             ^ source.vehicle
+#              ^^^^^^^ source.vehicle keyword.control.foreach.vehicle
+#                     ^^^ source.vehicle
+#                        ^ source.vehicle keyword.operator.dot.vehicle
+>  (x ! i - meanScalingValues ! i) / (maximumInputValues ! i)
+#^^^^^ source.vehicle
+#     ^ source.vehicle keyword.operator.lookup.vehicle
+#      ^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.sub.vehicle
+#          ^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                             ^ source.vehicle keyword.operator.lookup.vehicle
+#                              ^^^^ source.vehicle
+#                                  ^ source.vehicle keyword.operator.div.vehicle
+#                                   ^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                        ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                         ^^^^ source.vehicle
+>
+>-- Using this we can define a new function that first normalises the input
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- vector and then applies the neural network.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>normAcasXu : UnnormalisedInputVector -> OutputVector
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^ source.vehicle
+#           ^ source.vehicle keyword.operator.colon.vehicle
+#            ^^^^ source.vehicle
+#                ^^ source.vehicle keyword.operator.or.vehicle
+#                  ^^^^^^^^^^^^^^^^ source.vehicle
+#                                  ^^ source.vehicle keyword.operator.or.vehicle
+#                                    ^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                       ^^^^^^^^^^^ source.vehicle
+#                                                  ^^ source.vehicle keyword.operator.or.vehicle
+>normAcasXu x = acasXu (normalise x)
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^^^ source.vehicle
+#             ^ source.vehicle keyword.operator.define.vehicle
+#              ^^^^^^^^^^ source.vehicle
+#                        ^^ source.vehicle keyword.operator.or.vehicle
+#                          ^^^^^^^^^^ source.vehicle
 >
 >-- A constraint that says the network chooses output `i` when given the
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -181,10 +443,10 @@
 >-- input `x`. We must necessarily provide a finite index that is less than 5
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->-- (i.e. of type Index 5). The `a ! b` operator lookups index `b` in tensor `a`.
+>-- (i.e. of type Index 5). The `a ! b` operator lookups index `b` in vector `a`.
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
->advises : Index 5 -> InputVector -> Bool
+>advises : Index 5 -> UnnormalisedInputVector -> Bool
 #^^^^^^^^ source.vehicle
 #        ^ source.vehicle keyword.operator.colon.vehicle
 #         ^ source.vehicle
@@ -193,13 +455,15 @@
 #                ^ source.vehicle constant.numeric.integral.decimal.vehicle
 #                 ^ source.vehicle
 #                  ^^ source.vehicle keyword.operator.arrow.vehicle
-#                    ^^^^^^^^^^ source.vehicle
-#                              ^^ source.vehicle keyword.operator.or.vehicle
-#                                ^ source.vehicle
-#                                 ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                   ^ source.vehicle
-#                                    ^^^^ source.vehicle support.type.bool.vehicle
->advises i x = forall j . i != j => acasXu x ! i < acasXu x ! j
+#                    ^^^^ source.vehicle
+#                        ^^ source.vehicle keyword.operator.or.vehicle
+#                          ^^^^^^^^^^^^^^^^ source.vehicle
+#                                          ^^ source.vehicle keyword.operator.or.vehicle
+#                                            ^ source.vehicle
+#                                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                               ^ source.vehicle
+#                                                ^^^^ source.vehicle support.type.bool.vehicle
+>advises i x = forall j . i != j => normAcasXu x ! i < normAcasXu x ! j
 #^^^^^^^^^^^^ source.vehicle
 #            ^ source.vehicle keyword.operator.define.vehicle
 #             ^ source.vehicle
@@ -210,13 +474,17 @@
 #                           ^^ source.vehicle keyword.operator.distinct.vehicle
 #                             ^^^ source.vehicle
 #                                ^^ source.vehicle keyword.operator.implies.vehicle
-#                                  ^^^^^^^^^^ source.vehicle
-#                                            ^ source.vehicle keyword.operator.lookup.vehicle
-#                                             ^^^ source.vehicle
-#                                                ^ source.vehicle keyword.operator.lt.vehicle
-#                                                 ^^^^^^^^^^ source.vehicle
-#                                                           ^ source.vehicle keyword.operator.lookup.vehicle
-#                                                            ^^^ source.vehicle
+#                                  ^^ source.vehicle
+#                                    ^^ source.vehicle keyword.operator.or.vehicle
+#                                      ^^^^^^^^^^ source.vehicle
+#                                                ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                 ^^^ source.vehicle
+#                                                    ^ source.vehicle keyword.operator.lt.vehicle
+#                                                     ^^ source.vehicle
+#                                                       ^^ source.vehicle keyword.operator.or.vehicle
+#                                                         ^^^^^^^^^^ source.vehicle
+#                                                                   ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                                    ^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -239,15 +507,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->intruderDistantAndSlower : InputVector -> Bool
+>intruderDistantAndSlower : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                         ^ source.vehicle keyword.operator.colon.vehicle
-#                          ^^^^^^^^^^ source.vehicle
-#                                    ^^ source.vehicle keyword.operator.or.vehicle
-#                                      ^ source.vehicle
-#                                       ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                         ^ source.vehicle
-#                                          ^^^^ source.vehicle support.type.bool.vehicle
+#                          ^^^^ source.vehicle
+#                              ^^ source.vehicle keyword.operator.or.vehicle
+#                                ^^^^^^^^^^^^^^^^ source.vehicle
+#                                                ^^ source.vehicle keyword.operator.or.vehicle
+#                                                  ^ source.vehicle
+#                                                   ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                     ^ source.vehicle
+#                                                      ^^^^ source.vehicle support.type.bool.vehicle
 >intruderDistantAndSlower x =
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                           ^ source.vehicle keyword.operator.define.vehicle
@@ -277,27 +547,33 @@
 #                           ^ source.vehicle
 #                            ^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property1 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property1 = forall x . intruderDistantAndSlower x =>
+>property1 = forall x . validInput x and intruderDistantAndSlower x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                  ^^ source.vehicle keyword.operator.implies.vehicle
->  acasXu x ! clearOfConflict <= 1500
-#^^^^^^^^^^^ source.vehicle
-#           ^ source.vehicle keyword.operator.lookup.vehicle
-#            ^^^^^^^^^^^^^^^^^ source.vehicle
-#                             ^^ source.vehicle keyword.operator.lte.vehicle
-#                               ^ source.vehicle
-#                                ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                   ^^ source.vehicle keyword.operator.implies.vehicle
+>  normAcasXu x ! clearOfConflict <= 1500
+#^^^ source.vehicle
+#   ^^ source.vehicle keyword.operator.or.vehicle
+#     ^^^^^^^^^^ source.vehicle
+#               ^ source.vehicle keyword.operator.lookup.vehicle
+#                ^^^^^^^^^^^^^^^^^ source.vehicle
+#                                 ^^ source.vehicle keyword.operator.lte.vehicle
+#                                   ^ source.vehicle
+#                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -317,32 +593,40 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property2 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property2 = forall x . intruderDistantAndSlower x =>
+>property2 = forall x . validInput x and intruderDistantAndSlower x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                  ^^ source.vehicle keyword.operator.implies.vehicle
->  (exists j . (acasXu x ! j) > (acasXu x ! clearOfConflict))
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                   ^^ source.vehicle keyword.operator.implies.vehicle
+>  (exists j . (normAcasXu x ! j) > (normAcasXu x ! clearOfConflict))
 #^^^ source.vehicle
 #   ^^^^^^ source.vehicle keyword.control.exists.vehicle
 #         ^^^ source.vehicle
 #            ^ source.vehicle keyword.operator.dot.vehicle
-#             ^^^^^^^^^^^ source.vehicle
-#                        ^ source.vehicle keyword.operator.lookup.vehicle
-#                         ^^^^ source.vehicle
-#                             ^ source.vehicle keyword.operator.gt.vehicle
-#                              ^^^^^^^^^^^ source.vehicle
-#                                         ^ source.vehicle keyword.operator.lookup.vehicle
-#                                          ^^^^^^^^^^^^^^^^^^^ source.vehicle
+#             ^^^ source.vehicle
+#                ^^ source.vehicle keyword.operator.or.vehicle
+#                  ^^^^^^^^^^ source.vehicle
+#                            ^ source.vehicle keyword.operator.lookup.vehicle
+#                             ^^^^ source.vehicle
+#                                 ^ source.vehicle keyword.operator.gt.vehicle
+#                                  ^^^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.or.vehicle
+#                                       ^^^^^^^^^^ source.vehicle
+#                                                 ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                  ^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -362,15 +646,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->directlyAhead : InputVector -> Bool
+>directlyAhead : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^ source.vehicle
 #              ^ source.vehicle keyword.operator.colon.vehicle
-#               ^^^^^^^^^^ source.vehicle
-#                         ^^ source.vehicle keyword.operator.or.vehicle
-#                           ^ source.vehicle
-#                            ^^ source.vehicle keyword.operator.arrow.vehicle
-#                              ^ source.vehicle
-#                               ^^^^ source.vehicle support.type.bool.vehicle
+#               ^^^^ source.vehicle
+#                   ^^ source.vehicle keyword.operator.or.vehicle
+#                     ^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.or.vehicle
+#                                       ^ source.vehicle
+#                                        ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                          ^ source.vehicle
+#                                           ^^^^ source.vehicle support.type.bool.vehicle
 >directlyAhead x =
 #^^^^^^^^^^^^^^^^ source.vehicle
 #                ^ source.vehicle keyword.operator.define.vehicle
@@ -400,15 +686,17 @@
 #                                    ^ source.vehicle
 #                                     ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
 >
->movingTowards : InputVector -> Bool
+>movingTowards : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^ source.vehicle
 #              ^ source.vehicle keyword.operator.colon.vehicle
-#               ^^^^^^^^^^ source.vehicle
-#                         ^^ source.vehicle keyword.operator.or.vehicle
-#                           ^ source.vehicle
-#                            ^^ source.vehicle keyword.operator.arrow.vehicle
-#                              ^ source.vehicle
-#                               ^^^^ source.vehicle support.type.bool.vehicle
+#               ^^^^ source.vehicle
+#                   ^^ source.vehicle keyword.operator.or.vehicle
+#                     ^^^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.or.vehicle
+#                                       ^ source.vehicle
+#                                        ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                          ^ source.vehicle
+#                                           ^^^^ source.vehicle support.type.bool.vehicle
 >movingTowards x =
 #^^^^^^^^^^^^^^^^ source.vehicle
 #                ^ source.vehicle keyword.operator.define.vehicle
@@ -438,25 +726,29 @@
 #                        ^ source.vehicle
 #                         ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property3 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property3 = forall x . directlyAhead x and movingTowards x =>
+>property3 = forall x . validInput x and directlyAhead x and movingTowards x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^ source.vehicle
-#                                       ^^^ source.vehicle keyword.operator.and.vehicle
-#                                          ^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                           ^^ source.vehicle keyword.operator.implies.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                        ^^^ source.vehicle keyword.operator.and.vehicle
+#                                                           ^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                            ^^ source.vehicle keyword.operator.implies.vehicle
 >  not (advises clearOfConflict x)
 #^^ source.vehicle
-#  ^^^ source.vehicle
+#  ^^^ source.vehicle constant.language.not.vehicle
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
@@ -480,15 +772,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->movingAway : InputVector -> Bool
+>movingAway : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^ source.vehicle
 #           ^ source.vehicle keyword.operator.colon.vehicle
-#            ^^^^^^^^^^ source.vehicle
-#                      ^^ source.vehicle keyword.operator.or.vehicle
-#                        ^ source.vehicle
-#                         ^^ source.vehicle keyword.operator.arrow.vehicle
-#                           ^ source.vehicle
-#                            ^^^^ source.vehicle support.type.bool.vehicle
+#            ^^^^ source.vehicle
+#                ^^ source.vehicle keyword.operator.or.vehicle
+#                  ^^^^^^^^^^^^^^^^ source.vehicle
+#                                  ^^ source.vehicle keyword.operator.or.vehicle
+#                                    ^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                       ^ source.vehicle
+#                                        ^^^^ source.vehicle support.type.bool.vehicle
 >movingAway x =
 #^^^^^^^^^^^^^ source.vehicle
 #             ^ source.vehicle keyword.operator.define.vehicle
@@ -522,25 +816,29 @@
 #                                ^ source.vehicle
 #                                 ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property4 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property4 = forall x . directlyAhead x and movingAway x =>
+>property4 = forall x . validInput x and directlyAhead x and movingAway x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^ source.vehicle
-#                                       ^^^ source.vehicle keyword.operator.and.vehicle
-#                                          ^^^^^^^^^^^^^^ source.vehicle
-#                                                        ^^ source.vehicle keyword.operator.implies.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                        ^^^ source.vehicle keyword.operator.and.vehicle
+#                                                           ^^^^^^^^^^^^^^ source.vehicle
+#                                                                         ^^ source.vehicle keyword.operator.implies.vehicle
 >  not (advises clearOfConflict x)
 #^^ source.vehicle
-#  ^^^ source.vehicle
+#  ^^^ source.vehicle constant.language.not.vehicle
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
@@ -561,15 +859,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->nearAndApproachingFromLeft : InputVector -> Bool
+>nearAndApproachingFromLeft : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                           ^ source.vehicle keyword.operator.colon.vehicle
-#                            ^^^^^^^^^^ source.vehicle
-#                                      ^^ source.vehicle keyword.operator.or.vehicle
-#                                        ^ source.vehicle
-#                                         ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                           ^ source.vehicle
-#                                            ^^^^ source.vehicle support.type.bool.vehicle
+#                            ^^^^ source.vehicle
+#                                ^^ source.vehicle keyword.operator.or.vehicle
+#                                  ^^^^^^^^^^^^^^^^ source.vehicle
+#                                                  ^^ source.vehicle keyword.operator.or.vehicle
+#                                                    ^ source.vehicle
+#                                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                       ^ source.vehicle
+#                                                        ^^^^ source.vehicle support.type.bool.vehicle
 >nearAndApproachingFromLeft x =
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                             ^ source.vehicle keyword.operator.define.vehicle
@@ -641,21 +941,25 @@
 #                                  ^ source.vehicle
 #                                   ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property5 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property5 = forall x . nearAndApproachingFromLeft x => advises strongRight x
+>property5 = forall x . validInput x and nearAndApproachingFromLeft x => advises strongRight x
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                    ^^ source.vehicle keyword.operator.implies.vehicle
-#                                                      ^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                     ^^ source.vehicle keyword.operator.implies.vehicle
+#                                                                       ^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -672,15 +976,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->intruderFarAway : InputVector -> Bool
+>intruderFarAway : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^^^ source.vehicle
 #                ^ source.vehicle keyword.operator.colon.vehicle
-#                 ^^^^^^^^^^ source.vehicle
-#                           ^^ source.vehicle keyword.operator.or.vehicle
-#                             ^ source.vehicle
-#                              ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                ^ source.vehicle
-#                                 ^^^^ source.vehicle support.type.bool.vehicle
+#                 ^^^^ source.vehicle
+#                     ^^ source.vehicle keyword.operator.or.vehicle
+#                       ^^^^^^^^^^^^^^^^ source.vehicle
+#                                       ^^ source.vehicle keyword.operator.or.vehicle
+#                                         ^ source.vehicle
+#                                          ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                            ^ source.vehicle
+#                                             ^^^^ source.vehicle support.type.bool.vehicle
 >intruderFarAway x =
 #^^^^^^^^^^^^^^^^^^ source.vehicle
 #                  ^ source.vehicle keyword.operator.define.vehicle
@@ -761,21 +1067,25 @@
 #                                    ^ source.vehicle
 #                                     ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property6 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property6 = forall x . intruderFarAway x => advises clearOfConflict x
+>property6 = forall x . validInput x and intruderFarAway x => advises clearOfConflict x
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                         ^^ source.vehicle keyword.operator.implies.vehicle
-#                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                          ^^ source.vehicle keyword.operator.implies.vehicle
+#                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
@@ -792,15 +1102,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->largeVerticalSeparation : InputVector -> Bool
+>largeVerticalSeparation : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                        ^ source.vehicle keyword.operator.colon.vehicle
-#                         ^^^^^^^^^^ source.vehicle
-#                                   ^^ source.vehicle keyword.operator.or.vehicle
-#                                     ^ source.vehicle
-#                                      ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                        ^ source.vehicle
-#                                         ^^^^ source.vehicle support.type.bool.vehicle
+#                         ^^^^ source.vehicle
+#                             ^^ source.vehicle keyword.operator.or.vehicle
+#                               ^^^^^^^^^^^^^^^^ source.vehicle
+#                                               ^^ source.vehicle keyword.operator.or.vehicle
+#                                                 ^ source.vehicle
+#                                                  ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                    ^ source.vehicle
+#                                                     ^^^^ source.vehicle support.type.bool.vehicle
 >largeVerticalSeparation x =
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                          ^ source.vehicle keyword.operator.define.vehicle
@@ -864,27 +1176,31 @@
 #                                   ^ source.vehicle
 #                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property7 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property7 = forall x . largeVerticalSeparation x =>
+>property7 = forall x . validInput x and largeVerticalSeparation x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                 ^^ source.vehicle keyword.operator.implies.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                  ^^ source.vehicle keyword.operator.implies.vehicle
 >  not (advises strongLeft x) and not (advises strongRight x)
 #^^ source.vehicle
-#  ^^^ source.vehicle
+#  ^^^ source.vehicle constant.language.not.vehicle
 #     ^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                             ^^^ source.vehicle keyword.operator.and.vehicle
 #                                ^ source.vehicle
-#                                 ^^^ source.vehicle
+#                                 ^^^ source.vehicle constant.language.not.vehicle
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
 >--------------------------------------------------------------------------------
@@ -905,15 +1221,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->largeVerticalSeparationAndPreviousWeakLeft : InputVector -> Bool
+>largeVerticalSeparationAndPreviousWeakLeft : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                           ^ source.vehicle keyword.operator.colon.vehicle
-#                                            ^^^^^^^^^^ source.vehicle
-#                                                      ^^ source.vehicle keyword.operator.or.vehicle
-#                                                        ^ source.vehicle
-#                                                         ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                                           ^ source.vehicle
-#                                                            ^^^^ source.vehicle support.type.bool.vehicle
+#                                            ^^^^ source.vehicle
+#                                                ^^ source.vehicle keyword.operator.or.vehicle
+#                                                  ^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                  ^^ source.vehicle keyword.operator.or.vehicle
+#                                                                    ^ source.vehicle
+#                                                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                       ^ source.vehicle
+#                                                                        ^^^^ source.vehicle support.type.bool.vehicle
 >largeVerticalSeparationAndPreviousWeakLeft x =
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                             ^ source.vehicle keyword.operator.define.vehicle
@@ -984,20 +1302,24 @@
 #                                   ^ source.vehicle
 #                                    ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property8 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property8 = forall x . largeVerticalSeparationAndPreviousWeakLeft x =>
+>property8 = forall x . validInput x and largeVerticalSeparationAndPreviousWeakLeft x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                                    ^^ source.vehicle keyword.operator.implies.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                                     ^^ source.vehicle keyword.operator.implies.vehicle
 >  (advises clearOfConflict x) or (advises weakLeft x)
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                              ^^ source.vehicle keyword.operator.or.vehicle
@@ -1021,15 +1343,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->previousWeakRightAndNearbyIntruder : InputVector -> Bool
+>previousWeakRightAndNearbyIntruder : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                   ^ source.vehicle keyword.operator.colon.vehicle
-#                                    ^^^^^^^^^^ source.vehicle
-#                                              ^^ source.vehicle keyword.operator.or.vehicle
-#                                                ^ source.vehicle
-#                                                 ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                                   ^ source.vehicle
-#                                                    ^^^^ source.vehicle support.type.bool.vehicle
+#                                    ^^^^ source.vehicle
+#                                        ^^ source.vehicle keyword.operator.or.vehicle
+#                                          ^^^^^^^^^^^^^^^^ source.vehicle
+#                                                          ^^ source.vehicle keyword.operator.or.vehicle
+#                                                            ^ source.vehicle
+#                                                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                               ^ source.vehicle
+#                                                                ^^^^ source.vehicle support.type.bool.vehicle
 >previousWeakRightAndNearbyIntruder x =
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                                     ^ source.vehicle keyword.operator.define.vehicle
@@ -1103,20 +1427,24 @@
 #                                   ^ source.vehicle
 #                                    ^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property9 : Bool
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.colon.vehicle
 #           ^ source.vehicle
 #            ^^^^ source.vehicle support.type.bool.vehicle
->property9 = forall x . previousWeakRightAndNearbyIntruder x =>
+>property9 = forall x . validInput x and previousWeakRightAndNearbyIntruder x =>
 #^^^^^^^^^^ source.vehicle
 #          ^ source.vehicle keyword.operator.define.vehicle
 #           ^ source.vehicle
 #            ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                  ^^^ source.vehicle
 #                     ^ source.vehicle keyword.operator.dot.vehicle
-#                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                                            ^^ source.vehicle keyword.operator.implies.vehicle
+#                      ^^^^^^^^^^^^^^ source.vehicle
+#                                    ^^^ source.vehicle keyword.operator.and.vehicle
+#                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                                             ^^ source.vehicle keyword.operator.implies.vehicle
 >  advises strongLeft x
 #^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
 >
@@ -1135,15 +1463,17 @@
 #^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
 #  ^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
 >
->intruderFarAway2 : InputVector -> Bool
+>intruderFarAway2 : UnnormalisedInputVector -> Bool
 #^^^^^^^^^^^^^^^^^ source.vehicle
 #                 ^ source.vehicle keyword.operator.colon.vehicle
-#                  ^^^^^^^^^^ source.vehicle
-#                            ^^ source.vehicle keyword.operator.or.vehicle
-#                              ^ source.vehicle
-#                               ^^ source.vehicle keyword.operator.arrow.vehicle
-#                                 ^ source.vehicle
-#                                  ^^^^ source.vehicle support.type.bool.vehicle
+#                  ^^^^ source.vehicle
+#                      ^^ source.vehicle keyword.operator.or.vehicle
+#                        ^^^^^^^^^^^^^^^^ source.vehicle
+#                                        ^^ source.vehicle keyword.operator.or.vehicle
+#                                          ^ source.vehicle
+#                                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                             ^ source.vehicle
+#                                              ^^^^ source.vehicle support.type.bool.vehicle
 >intruderFarAway2 x =
 #^^^^^^^^^^^^^^^^^^^ source.vehicle
 #                   ^ source.vehicle keyword.operator.define.vehicle
@@ -1213,18 +1543,23 @@
 #                                    ^ source.vehicle
 #                                     ^^^^ source.vehicle constant.numeric.integral.decimal.vehicle
 >
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
 >property10 : Bool
 #^^^^^^^^^^^ source.vehicle
 #           ^ source.vehicle keyword.operator.colon.vehicle
 #            ^ source.vehicle
 #             ^^^^ source.vehicle support.type.bool.vehicle
->property10 = forall x . intruderFarAway2 x => advises clearOfConflict x
+>property10 = forall x . validInput x and intruderFarAway2 x => advises clearOfConflict x
 #^^^^^^^^^^^ source.vehicle
 #           ^ source.vehicle keyword.operator.define.vehicle
 #            ^ source.vehicle
 #             ^^^^^^ source.vehicle keyword.control.forall.vehicle
 #                   ^^^ source.vehicle
 #                      ^ source.vehicle keyword.operator.dot.vehicle
-#                       ^^^^^^^^^^^^^^^^^^^^ source.vehicle
-#                                           ^^ source.vehicle keyword.operator.implies.vehicle
-#                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                       ^^^^^^^^^^^^^^ source.vehicle
+#                                     ^^^ source.vehicle keyword.operator.and.vehicle
+#                                        ^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                                            ^^ source.vehicle keyword.operator.implies.vehicle
+#                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>

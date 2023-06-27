@@ -1,0 +1,23 @@
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
+>f : Bool
+#^^ source.vehicle
+#  ^ source.vehicle keyword.operator.colon.vehicle
+#   ^ source.vehicle
+#    ^^^^ source.vehicle support.type.bool.vehicle
+>f = forall (x : Int) . x >= 0
+#^^ source.vehicle
+#  ^ source.vehicle keyword.operator.define.vehicle
+#   ^ source.vehicle
+#    ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#          ^^^^ source.vehicle
+#              ^ source.vehicle keyword.operator.colon.vehicle
+#               ^ source.vehicle
+#                ^^^ source.vehicle support.type.int.vehicle
+#                   ^^ source.vehicle
+#                     ^ source.vehicle keyword.operator.dot.vehicle
+#                      ^^^ source.vehicle
+#                         ^^ source.vehicle keyword.operator.gte.vehicle
+#                           ^ source.vehicle
+#                            ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>

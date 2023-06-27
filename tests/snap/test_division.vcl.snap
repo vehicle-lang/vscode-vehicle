@@ -1,0 +1,15 @@
+>division : Rat
+#^^^^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.colon.vehicle
+#          ^ source.vehicle
+#           ^^^ source.vehicle support.type.rat.vehicle
+>division = 6 / 2
+#^^^^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.define.vehicle
+#          ^ source.vehicle
+#           ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#            ^ source.vehicle
+#             ^ source.vehicle keyword.operator.div.vehicle
+#              ^ source.vehicle
+#               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>

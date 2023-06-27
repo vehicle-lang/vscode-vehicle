@@ -1,0 +1,229 @@
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Inputs and outputs
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Define the type for our input images
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--type Image = Tensor Rat [28, 28]
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Network
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Declare the network used to classify images. The output of the network is a
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- score for each of the digits 0 to 9.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>@network
+#^^^^^^^^ source.vehicle keyword.other.declaration.network.vehicle
+>mnist : Tensor Rat [28, 28] -> Vector Rat 10
+#^^^^^^ source.vehicle
+#      ^ source.vehicle keyword.operator.colon.vehicle
+#       ^ source.vehicle
+#        ^^^^^^ source.vehicle support.type.tensor.vehicle
+#              ^ source.vehicle
+#               ^^^ source.vehicle support.type.rat.vehicle
+#                  ^^ source.vehicle
+#                    ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                      ^^ source.vehicle
+#                        ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                          ^^ source.vehicle
+#                            ^^ source.vehicle keyword.operator.arrow.vehicle
+#                              ^ source.vehicle
+#                               ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                     ^ source.vehicle
+#                                      ^^^ source.vehicle support.type.rat.vehicle
+#                                         ^ source.vehicle
+#                                          ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Definition of robustness around a point
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- First we define the parameter `epsilon` that will represent the radius of the
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- ball that we want the network to be robust in. Note that we declare this as
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- a parameter which allows the value of `epsilon` to be specified at compile
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- time rather than be fixed in the specification.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>--epsilon : Rat
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--epsilon = 0.01
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>--delta : Rat
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--delta = 0.02
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>-- Next we define what it means for an image `x` to be in a ball of
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- size epsilon around 0.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>boundedByEpsilon : Tensor Rat [28, 28] -> Bool
+#^^^^^^^^^^^^^^^^^ source.vehicle
+#                 ^ source.vehicle keyword.operator.colon.vehicle
+#                  ^ source.vehicle
+#                   ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                         ^ source.vehicle
+#                          ^^^ source.vehicle support.type.rat.vehicle
+#                             ^^ source.vehicle
+#                               ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                 ^^ source.vehicle
+#                                   ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                     ^^ source.vehicle
+#                                       ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                         ^ source.vehicle
+#                                          ^^^^ source.vehicle support.type.bool.vehicle
+>boundedByEpsilon x = forall i j . -0.01 <= x ! i ! j <= 0.01
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^ source.vehicle
+#                     ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                           ^^^^^ source.vehicle
+#                                ^ source.vehicle keyword.operator.dot.vehicle
+#                                 ^ source.vehicle
+#                                  ^ source.vehicle keyword.operator.sub.vehicle
+#                                   ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                       ^ source.vehicle
+#                                        ^^ source.vehicle keyword.operator.lte.vehicle
+#                                          ^^^ source.vehicle
+#                                             ^ source.vehicle keyword.operator.lookup.vehicle
+#                                              ^^^ source.vehicle
+#                                                 ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                  ^^^ source.vehicle
+#                                                     ^^ source.vehicle keyword.operator.lte.vehicle
+#                                                       ^ source.vehicle
+#                                                        ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+>
+>--The disjunction avoids having to define absolute value
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>boundedByDelta : Tensor Rat [28, 28] -> Tensor Rat [28, 28] -> Bool
+#^^^^^^^^^^^^^^^ source.vehicle
+#               ^ source.vehicle keyword.operator.colon.vehicle
+#                ^ source.vehicle
+#                 ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                       ^ source.vehicle
+#                        ^^^ source.vehicle support.type.rat.vehicle
+#                           ^^ source.vehicle
+#                             ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                               ^^ source.vehicle
+#                                 ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                   ^^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                       ^ source.vehicle
+#                                        ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                                              ^ source.vehicle
+#                                               ^^^ source.vehicle support.type.rat.vehicle
+#                                                  ^^ source.vehicle
+#                                                    ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                                      ^^ source.vehicle
+#                                                        ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                                          ^^ source.vehicle
+#                                                            ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                              ^ source.vehicle
+#                                                               ^^^^ source.vehicle support.type.bool.vehicle
+>boundedByDelta x y = forall k . (-0.02 <= (((mnist x) ! k ) - ((mnist y) ! k )) <= 0.02)
+#^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^ source.vehicle
+#                     ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                           ^^^ source.vehicle
+#                              ^ source.vehicle keyword.operator.dot.vehicle
+#                               ^^^ source.vehicle
+#                                  ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                      ^ source.vehicle
+#                                       ^^ source.vehicle keyword.operator.lte.vehicle
+#                                         ^^^^^^^^^^^^^ source.vehicle
+#                                                      ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                       ^^^^^ source.vehicle
+#                                                            ^ source.vehicle keyword.operator.sub.vehicle
+#                                                             ^^^^^^^^^^^^ source.vehicle
+#                                                                         ^ source.vehicle keyword.operator.lookup.vehicle
+#                                                                          ^^^^^^ source.vehicle
+#                                                                                ^^ source.vehicle keyword.operator.lte.vehicle
+#                                                                                  ^ source.vehicle
+#                                                                                   ^^^^ source.vehicle constant.numeric.floating.decimal.vehicle
+#                                                                                       ^^ source.vehicle
+>
+>
+>robustSingleInput : Tensor Rat [28, 28] -> Bool
+#^^^^^^^^^^^^^^^^^^ source.vehicle
+#                  ^ source.vehicle keyword.operator.colon.vehicle
+#                   ^ source.vehicle
+#                    ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                          ^ source.vehicle
+#                           ^^^ source.vehicle support.type.rat.vehicle
+#                              ^^ source.vehicle
+#                                ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                  ^^ source.vehicle
+#                                    ^^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                      ^^ source.vehicle
+#                                        ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                          ^ source.vehicle
+#                                           ^^^^ source.vehicle support.type.bool.vehicle
+>robustSingleInput image = forall pertubation .
+#^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                        ^ source.vehicle keyword.operator.define.vehicle
+#                         ^ source.vehicle
+#                          ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                                ^^^^^^^^^^^^^ source.vehicle
+#                                             ^ source.vehicle keyword.operator.dot.vehicle
+>    let perturbedImage = image + pertubation in
+#^^^^ source.vehicle
+#    ^^^ source.vehicle keyword.other.let.vehicle
+#       ^^^^^^^^^^^^^^^^ source.vehicle
+#                       ^ source.vehicle keyword.operator.define.vehicle
+#                        ^^^^^^^ source.vehicle
+#                               ^ source.vehicle keyword.operator.add.vehicle
+#                                ^^^^^^^^^^^^^ source.vehicle
+#                                             ^^ source.vehicle keyword.other.in.vehicle
+>    boundedByEpsilon pertubation => boundedByDelta image perturbedImage
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                 ^^ source.vehicle keyword.operator.implies.vehicle
+#                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>
+>@property
+#^^^^^^^^^ source.vehicle keyword.other.declaration.property.vehicle
+>robust1 : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.colon.vehicle
+#         ^ source.vehicle
+#          ^^^^ source.vehicle support.type.bool.vehicle
+>robust1 = forall x . robustSingleInput x
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.define.vehicle
+#         ^ source.vehicle
+#          ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#                ^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.dot.vehicle
+#                    ^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+>

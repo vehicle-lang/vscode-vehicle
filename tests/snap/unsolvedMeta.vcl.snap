@@ -1,0 +1,15 @@
+>test : Bool
+#^^^^^ source.vehicle
+#     ^ source.vehicle keyword.operator.colon.vehicle
+#      ^ source.vehicle
+#       ^^^^ source.vehicle support.type.bool.vehicle
+>test = forall x . True
+#^^^^^ source.vehicle
+#     ^ source.vehicle keyword.operator.define.vehicle
+#      ^ source.vehicle
+#       ^^^^^^ source.vehicle keyword.control.forall.vehicle
+#             ^^^ source.vehicle
+#                ^ source.vehicle keyword.operator.dot.vehicle
+#                 ^ source.vehicle
+#                  ^^^^ source.vehicle constant.language.true.vehicle
+>

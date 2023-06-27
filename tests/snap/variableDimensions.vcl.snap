@@ -1,0 +1,52 @@
+>@network
+#^^^^^^^^ source.vehicle keyword.other.declaration.network.vehicle
+>f : Tensor Rat [1] -> Tensor Rat [1]
+#^^ source.vehicle
+#  ^ source.vehicle keyword.operator.colon.vehicle
+#   ^ source.vehicle
+#    ^^^^^^ source.vehicle support.type.tensor.vehicle
+#          ^ source.vehicle
+#           ^^^ source.vehicle support.type.rat.vehicle
+#              ^^ source.vehicle
+#                ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                 ^^ source.vehicle
+#                   ^^ source.vehicle keyword.operator.arrow.vehicle
+#                     ^ source.vehicle
+#                      ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                            ^ source.vehicle
+#                             ^^^ source.vehicle support.type.rat.vehicle
+#                                ^^ source.vehicle
+#                                  ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                   ^^ source.vehicle
+>
+>@dataset
+#^^^^^^^^ source.vehicle keyword.other.declaration.dataset.vehicle
+>trainingDataset : Tensor Nat [if f [0] ! 0 > 0 then 2 else 3 ]
+#^^^^^^^^^^^^^^^^ source.vehicle
+#                ^ source.vehicle keyword.operator.colon.vehicle
+#                 ^ source.vehicle
+#                  ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                        ^ source.vehicle
+#                         ^^^ source.vehicle support.type.nat.vehicle
+#                            ^^ source.vehicle
+#                              ^^ source.vehicle keyword.control.if.vehicle
+#                                ^^^^ source.vehicle
+#                                    ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                     ^^ source.vehicle
+#                                       ^ source.vehicle keyword.operator.lookup.vehicle
+#                                        ^ source.vehicle
+#                                         ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                          ^ source.vehicle
+#                                           ^ source.vehicle keyword.operator.gt.vehicle
+#                                            ^ source.vehicle
+#                                             ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                              ^ source.vehicle
+#                                               ^^^^ source.vehicle keyword.control.then.vehicle
+#                                                   ^ source.vehicle
+#                                                    ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                                     ^ source.vehicle
+#                                                      ^^^^ source.vehicle keyword.control.else.vehicle
+#                                                          ^ source.vehicle
+#                                                           ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                                            ^^^ source.vehicle
+>

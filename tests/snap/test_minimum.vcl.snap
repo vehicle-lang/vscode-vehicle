@@ -1,0 +1,15 @@
+>minimum : Bool
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.colon.vehicle
+#         ^ source.vehicle
+#          ^^^^ source.vehicle support.type.bool.vehicle
+>minimum = 1 <= 3
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.define.vehicle
+#         ^ source.vehicle
+#          ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#           ^ source.vehicle
+#            ^^ source.vehicle keyword.operator.lte.vehicle
+#              ^ source.vehicle
+#               ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>

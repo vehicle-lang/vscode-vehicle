@@ -1,0 +1,21 @@
+>value : Nat
+#^^^^^^ source.vehicle
+#      ^ source.vehicle keyword.operator.colon.vehicle
+#       ^ source.vehicle
+#        ^^^ source.vehicle support.type.nat.vehicle
+>value = 2
+#^^^^^^ source.vehicle
+#      ^ source.vehicle keyword.operator.define.vehicle
+#       ^ source.vehicle
+#        ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>
+>variable : Nat
+#^^^^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.colon.vehicle
+#          ^ source.vehicle
+#           ^^^ source.vehicle support.type.nat.vehicle
+>variable = value
+#^^^^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.define.vehicle
+#          ^^^^^^^ source.vehicle
+>

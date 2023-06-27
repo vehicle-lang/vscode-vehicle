@@ -43,11 +43,10 @@ repository:
     captures:
       "1": { name: keyword.other.declaration.network.vehicle }
       "2": { name: keyword.other.declaration.dataset.vehicle }
-      "3": { name: keyword.other.declaration.implicit.vehicle }
-      "4": { name: keyword.other.declaration.parameter.vehicle }
-      "5": { name: keyword.other.declaration.property.vehicle }
-      "6": { name: keyword.other.declaration.postulate.vehicle }
-      "7": { name: keyword.other.declaration.noinline.vehicle }
+      "3": { name: keyword.other.declaration.parameter.vehicle }
+      "4": { name: keyword.other.declaration.property.vehicle }
+      "5": { name: keyword.other.declaration.postulate.vehicle }
+      "6": { name: keyword.other.declaration.noinline.vehicle }
 
   control_keywords:
     match: >-

@@ -1,0 +1,13 @@
+>-- Test passes a reference to a non-existent dataset
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>@dataset
+#^^^^^^^^ source.vehicle keyword.other.declaration.dataset.vehicle
+>trainingDataset : List Rat
+#^^^^^^^^^^^^^^^^ source.vehicle
+#                ^ source.vehicle keyword.operator.colon.vehicle
+#                 ^ source.vehicle
+#                  ^^^^ source.vehicle support.type.list.vehicle
+#                      ^ source.vehicle
+#                       ^^^ source.vehicle support.type.rat.vehicle
+>

@@ -1,0 +1,12 @@
+>@parameter(valid=False)
+#^^^^^^^^^^ source.vehicle keyword.other.declaration.parameter.vehicle
+#          ^^^^^^ source.vehicle
+#                ^ source.vehicle keyword.operator.define.vehicle
+#                 ^^^^^ source.vehicle constant.language.false.vehicle
+#                      ^^ source.vehicle
+>epsilon : Rat
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.colon.vehicle
+#         ^ source.vehicle
+#          ^^^ source.vehicle support.type.rat.vehicle
+>

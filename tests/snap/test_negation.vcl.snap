@@ -1,0 +1,12 @@
+>negation : Int
+#^^^^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.colon.vehicle
+#          ^ source.vehicle
+#           ^^^ source.vehicle support.type.int.vehicle
+>negation = -5
+#^^^^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.define.vehicle
+#          ^ source.vehicle
+#           ^ source.vehicle keyword.operator.sub.vehicle
+#            ^ source.vehicle constant.numeric.integral.decimal.vehicle
+>

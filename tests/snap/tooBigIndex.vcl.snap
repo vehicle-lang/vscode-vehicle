@@ -1,0 +1,18 @@
+>-- Test provide a reference to a dataset with number >= 3 in it.
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>@dataset
+#^^^^^^^^ source.vehicle keyword.other.declaration.dataset.vehicle
+>trainingDataset : Tensor (Index 3) [4]
+#^^^^^^^^^^^^^^^^ source.vehicle
+#                ^ source.vehicle keyword.operator.colon.vehicle
+#                 ^ source.vehicle
+#                  ^^^^^^ source.vehicle support.type.tensor.vehicle
+#                        ^^ source.vehicle
+#                          ^^^^^ source.vehicle support.type.index.vehicle
+#                               ^ source.vehicle
+#                                ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                 ^^^ source.vehicle
+#                                    ^ source.vehicle constant.numeric.integral.decimal.vehicle
+#                                     ^^ source.vehicle
+>

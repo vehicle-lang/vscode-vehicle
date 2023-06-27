@@ -1,27 +1,43 @@
 -- SYNTAX TEST "source.vehicle" "simple"
 
-network controller : InputVector -> Tensor Rat [1]
--- <------- keyword.other.declaration.network.vehicle
+@network
+-- <-------- keyword.other.declaration.network.vehicle
+controller : InputVector -> Tensor Rat [1]
+--         ^ keyword.operator.colon.vehicle
+--                       ^^ keyword.operator.arrow.vehicle
+--                          ^^^^^^ support.type.tensor.vehicle
+--                                 ^^^ support.type.rat.vehicle
 
-dataset trainingImages : Tensor Image [n]
--- <------- keyword.other.declaration.dataset.vehicle
+@dataset
+-- <-------- keyword.other.declaration.dataset.vehicle
+trainingImages : Tensor Image [n]
+--             ^ keyword.operator.colon.vehicle
+--               ^^^^^^ support.type.tensor.vehicle
 
-parameter n : Nat
+@parameter
+-- <---------- keyword.other.declaration.parameter.vehicle
+n : Nat
+--  ^^^ support.type.nat.vehicle
+
+@dataset
+-- <-------- keyword.other.declaration.dataset.vehicle
+trainingLabels : Tensor Label [m]
+--             ^ keyword.operator.colon.vehicle
+--               ^^^^^^ support.type.tensor.vehicle
+
+@parameter
 -- <--------- keyword.other.declaration.parameter.vehicle
-
-dataset trainingLabels : Tensor Label [m]
--- <------- keyword.other.declaration.dataset.vehicle
-
-implicit parameter m : Nat
--- <-------- keyword.other.declaration.implicit.vehicle
---       ^^^^^^^^^ keyword.other.declaration.parameter.vehicle
+m : Nat
+--  ^^^ support.type.nat.vehicle
 
 type InputVector = Vector Rat 5
+--               ^ keyword.operator.define.vehicle
 -- <---- keyword.other.declaration.type.vehicle
 --                 ^^^^^^ support.type.vector.vehicle
 
 
 someFunction : Bool -> Unit
+--           ^ keyword.operator.colon.vehicle
 --             ^^^^ support.type.bool.vehicle
 --                  ^^ keyword.operator.arrow.vehicle
 --                     ^^^^ support.type.unit.vehicle

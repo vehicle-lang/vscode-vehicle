@@ -1,0 +1,572 @@
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Foldable
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>bigAnd : forallT {f : Type -> Type} . {{HasFold f}} -> f Bool -> Bool
+#^^^^^^^ source.vehicle
+#       ^ source.vehicle keyword.operator.colon.vehicle
+#        ^ source.vehicle
+#         ^^^^^^^ source.vehicle support.type.forall.vehicle
+#                ^^^^ source.vehicle
+#                    ^ source.vehicle keyword.operator.colon.vehicle
+#                     ^ source.vehicle
+#                      ^^^^ source.vehicle support.type.type.vehicle
+#                          ^ source.vehicle
+#                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                             ^ source.vehicle
+#                              ^^^^ source.vehicle support.type.type.vehicle
+#                                  ^^ source.vehicle
+#                                    ^ source.vehicle keyword.operator.dot.vehicle
+#                                     ^^^^^^^^^^^^^^^ source.vehicle
+#                                                    ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                      ^^^ source.vehicle
+#                                                         ^^^^ source.vehicle support.type.bool.vehicle
+#                                                             ^ source.vehicle
+#                                                              ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                ^ source.vehicle
+#                                                                 ^^^^ source.vehicle support.type.bool.vehicle
+>bigAnd = fold (\x y -> x and y) True
+#^^^^^^^ source.vehicle
+#       ^ source.vehicle keyword.operator.define.vehicle
+#        ^ source.vehicle
+#         ^^^^ source.vehicle constant.language.fold.vehicle
+#             ^^^^^^^ source.vehicle
+#                    ^^ source.vehicle keyword.operator.arrow.vehicle
+#                      ^^^ source.vehicle
+#                         ^^^ source.vehicle keyword.operator.and.vehicle
+#                            ^^^^ source.vehicle
+#                                ^^^^ source.vehicle constant.language.true.vehicle
+>
+>bigOr : forallT {f : Type -> Type} . {{HasFold f}} -> f Bool -> Bool
+#^^^^^^ source.vehicle
+#      ^ source.vehicle keyword.operator.colon.vehicle
+#       ^ source.vehicle
+#        ^^^^^^^ source.vehicle support.type.forall.vehicle
+#               ^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.colon.vehicle
+#                    ^ source.vehicle
+#                     ^^^^ source.vehicle support.type.type.vehicle
+#                         ^ source.vehicle
+#                          ^^ source.vehicle keyword.operator.arrow.vehicle
+#                            ^ source.vehicle
+#                             ^^^^ source.vehicle support.type.type.vehicle
+#                                 ^^ source.vehicle
+#                                   ^ source.vehicle keyword.operator.dot.vehicle
+#                                    ^^^^^^^^^^^^^^^ source.vehicle
+#                                                   ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                     ^^^ source.vehicle
+#                                                        ^^^^ source.vehicle support.type.bool.vehicle
+#                                                            ^ source.vehicle
+#                                                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                               ^ source.vehicle
+#                                                                ^^^^ source.vehicle support.type.bool.vehicle
+>bigOr = fold (\x y -> x or y) False
+#^^^^^^ source.vehicle
+#      ^ source.vehicle keyword.operator.define.vehicle
+#       ^ source.vehicle
+#        ^^^^ source.vehicle constant.language.fold.vehicle
+#            ^^^^^^^ source.vehicle
+#                   ^^ source.vehicle keyword.operator.arrow.vehicle
+#                     ^^^ source.vehicle
+#                        ^^ source.vehicle keyword.operator.or.vehicle
+#                          ^^^^ source.vehicle
+#                              ^^^^^ source.vehicle constant.language.false.vehicle
+>
+>forallIn : forallT {f : Type -> Type} . {{HasFold f}} -> {{HasMap f}} -> (A -> Bool) -> f A -> Bool
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.colon.vehicle
+#          ^ source.vehicle
+#           ^^^^^^^ source.vehicle support.type.forall.vehicle
+#                  ^^^^ source.vehicle
+#                      ^ source.vehicle keyword.operator.colon.vehicle
+#                       ^ source.vehicle
+#                        ^^^^ source.vehicle support.type.type.vehicle
+#                            ^ source.vehicle
+#                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                               ^ source.vehicle
+#                                ^^^^ source.vehicle support.type.type.vehicle
+#                                    ^^ source.vehicle
+#                                      ^ source.vehicle keyword.operator.dot.vehicle
+#                                       ^^^^^^^^^^^^^^^ source.vehicle
+#                                                      ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                        ^^^^^^^^^^^^^^ source.vehicle
+#                                                                      ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                        ^^^^ source.vehicle
+#                                                                            ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                              ^ source.vehicle
+#                                                                               ^^^^ source.vehicle support.type.bool.vehicle
+#                                                                                   ^^ source.vehicle
+#                                                                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                                       ^^^^^ source.vehicle
+#                                                                                            ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                                              ^ source.vehicle
+#                                                                                               ^^^^ source.vehicle support.type.bool.vehicle
+>forallIn f xs = bigAnd (map f xs)
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^^^^ source.vehicle
+#              ^ source.vehicle keyword.operator.define.vehicle
+#               ^^^^^^^^^ source.vehicle
+#                        ^^^ source.vehicle constant.language.map.vehicle
+#                           ^^^^^^^ source.vehicle
+>
+>existsIn : forallT {f : Type -> Type} . {{HasFold f}} -> {{HasMap f}} -> (A -> Bool) -> f A -> Bool
+#^^^^^^^^^ source.vehicle
+#         ^ source.vehicle keyword.operator.colon.vehicle
+#          ^ source.vehicle
+#           ^^^^^^^ source.vehicle support.type.forall.vehicle
+#                  ^^^^ source.vehicle
+#                      ^ source.vehicle keyword.operator.colon.vehicle
+#                       ^ source.vehicle
+#                        ^^^^ source.vehicle support.type.type.vehicle
+#                            ^ source.vehicle
+#                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                               ^ source.vehicle
+#                                ^^^^ source.vehicle support.type.type.vehicle
+#                                    ^^ source.vehicle
+#                                      ^ source.vehicle keyword.operator.dot.vehicle
+#                                       ^^^^^^^^^^^^^^^ source.vehicle
+#                                                      ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                        ^^^^^^^^^^^^^^ source.vehicle
+#                                                                      ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                        ^^^^ source.vehicle
+#                                                                            ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                              ^ source.vehicle
+#                                                                               ^^^^ source.vehicle support.type.bool.vehicle
+#                                                                                   ^^ source.vehicle
+#                                                                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                                       ^^^^^ source.vehicle
+#                                                                                            ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                                              ^ source.vehicle
+#                                                                                               ^^^^ source.vehicle support.type.bool.vehicle
+>existsIn f xs = bigOr (map f xs)
+#^^^^^^^^^^^^^^ source.vehicle
+#              ^ source.vehicle keyword.operator.define.vehicle
+#               ^^^^^^^^ source.vehicle
+#                       ^^^ source.vehicle constant.language.map.vehicle
+#                          ^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Vector
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>vectorToVector : forallT {n} {A} . Vector A n -> Vector A n
+#^^^^ source.vehicle
+#    ^^ source.vehicle keyword.operator.or.vehicle
+#      ^^^^^^ source.vehicle
+#            ^^ source.vehicle keyword.operator.or.vehicle
+#              ^ source.vehicle
+#               ^ source.vehicle keyword.operator.colon.vehicle
+#                ^ source.vehicle
+#                 ^^^^^^^ source.vehicle support.type.forall.vehicle
+#                        ^^^^^^^^^ source.vehicle
+#                                 ^ source.vehicle keyword.operator.dot.vehicle
+#                                  ^ source.vehicle
+#                                   ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                         ^^^^^ source.vehicle
+#                                              ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                ^ source.vehicle
+#                                                 ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                       ^^^^^ source.vehicle
+>vectorToVector xs = xs
+#^^^^ source.vehicle
+#    ^^ source.vehicle keyword.operator.or.vehicle
+#      ^^^^^^ source.vehicle
+#            ^^ source.vehicle keyword.operator.or.vehicle
+#              ^^^^ source.vehicle
+#                  ^ source.vehicle keyword.operator.define.vehicle
+#                   ^^^^ source.vehicle
+>
+>mapVector : forallT {n} {A} {B} . (A -> B) -> Vector A n -> Vector B n
+#^^^^^^^ source.vehicle
+#       ^^ source.vehicle keyword.operator.or.vehicle
+#         ^ source.vehicle
+#          ^ source.vehicle keyword.operator.colon.vehicle
+#           ^ source.vehicle
+#            ^^^^^^^ source.vehicle support.type.forall.vehicle
+#                   ^^^^^^^^^^^^^ source.vehicle
+#                                ^ source.vehicle keyword.operator.dot.vehicle
+#                                 ^^^^ source.vehicle
+#                                     ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                       ^^^^ source.vehicle
+#                                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                             ^ source.vehicle
+#                                              ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                    ^^^^^ source.vehicle
+#                                                         ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                           ^ source.vehicle
+#                                                            ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                                  ^^^^^ source.vehicle
+>mapVector {n} {A} {B} f = dfold {A} {n} {Vector B} (\{l} x xs -> f x ::v xs) []
+#^^^^^^^ source.vehicle
+#       ^^ source.vehicle keyword.operator.or.vehicle
+#         ^^^^^^^^^^^^^^^ source.vehicle
+#                        ^ source.vehicle keyword.operator.define.vehicle
+#                         ^ source.vehicle
+#                          ^^^^^ source.vehicle constant.language.dfold.vehicle
+#                               ^^^^^^^^^^ source.vehicle
+#                                         ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                               ^^^^^^^^^^^^^^^ source.vehicle
+#                                                              ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                ^^^^^ source.vehicle
+#                                                                     ^^ source.vehicle keyword.operator.cons.vehicle
+#                                                                       ^^^^^^^^^ source.vehicle
+>
+>foreachVector : (Index n -> A) -> Vector A n
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^ source.vehicle
+#           ^^ source.vehicle keyword.operator.or.vehicle
+#             ^ source.vehicle
+#              ^ source.vehicle keyword.operator.colon.vehicle
+#               ^^ source.vehicle
+#                 ^^^^^ source.vehicle support.type.index.vehicle
+#                      ^^^ source.vehicle
+#                         ^^ source.vehicle keyword.operator.arrow.vehicle
+#                           ^^^^ source.vehicle
+#                               ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                 ^ source.vehicle
+#                                  ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                        ^^^^^ source.vehicle
+>foreachVector {A} {n} f = map f (indices n)
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^ source.vehicle
+#           ^^ source.vehicle keyword.operator.or.vehicle
+#             ^^^^^^^^^^^ source.vehicle
+#                        ^ source.vehicle keyword.operator.define.vehicle
+#                         ^ source.vehicle
+#                          ^^^ source.vehicle constant.language.map.vehicle
+#                             ^^^^ source.vehicle
+#                                 ^^^^^^^ source.vehicle constant.language.indices.vehicle
+#                                        ^^^^ source.vehicle
+>
+>zipWith : (A -> B -> C) -> Vector A n -> Vector B n -> Vector C n
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.colon.vehicle
+#         ^^^^ source.vehicle
+#             ^^ source.vehicle keyword.operator.arrow.vehicle
+#               ^^^ source.vehicle
+#                  ^^ source.vehicle keyword.operator.arrow.vehicle
+#                    ^^^^ source.vehicle
+#                        ^^ source.vehicle keyword.operator.arrow.vehicle
+#                          ^ source.vehicle
+#                           ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                 ^^^^^ source.vehicle
+#                                      ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                        ^ source.vehicle
+#                                         ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                               ^^^^^ source.vehicle
+#                                                    ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                      ^ source.vehicle
+#                                                       ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                             ^^^^^ source.vehicle
+>zipWith f xs ys = foreach i . f (xs ! i) (ys ! i)
+#^^^^^^^^^^^^^^^^ source.vehicle
+#                ^ source.vehicle keyword.operator.define.vehicle
+#                 ^ source.vehicle
+#                  ^^^^^^^ source.vehicle keyword.control.foreach.vehicle
+#                         ^^^ source.vehicle
+#                            ^ source.vehicle keyword.operator.dot.vehicle
+#                             ^^^^^^^ source.vehicle
+#                                    ^ source.vehicle keyword.operator.lookup.vehicle
+#                                     ^^^^^^^^ source.vehicle
+#                                             ^ source.vehicle keyword.operator.lookup.vehicle
+#                                              ^^^^ source.vehicle
+>
+>@noinline
+#^^^^^^^^^ source.vehicle keyword.other.declaration.noinline.vehicle
+>addVector : {{HasAdd A B C}} -> Vector A n -> Vector B n -> Vector C n
+#^^^^^^^ source.vehicle
+#       ^^ source.vehicle keyword.operator.or.vehicle
+#         ^ source.vehicle
+#          ^ source.vehicle keyword.operator.colon.vehicle
+#           ^^^^^^^^^^^^^^^^^^ source.vehicle
+#                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                               ^ source.vehicle
+#                                ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                      ^^^^^ source.vehicle
+#                                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                             ^ source.vehicle
+#                                              ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                    ^^^^^ source.vehicle
+#                                                         ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                           ^ source.vehicle
+#                                                            ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                                  ^^^^^ source.vehicle
+>addVector = zipWith (\x y -> x + y)
+#^^^^^^^ source.vehicle
+#       ^^ source.vehicle keyword.operator.or.vehicle
+#         ^ source.vehicle
+#          ^ source.vehicle keyword.operator.define.vehicle
+#           ^^^^^^^^^^^^^^^ source.vehicle
+#                          ^^ source.vehicle keyword.operator.arrow.vehicle
+#                            ^^^ source.vehicle
+#                               ^ source.vehicle keyword.operator.add.vehicle
+#                                ^^^^ source.vehicle
+>
+>@noinline
+#^^^^^^^^^ source.vehicle keyword.other.declaration.noinline.vehicle
+>subVector : {{HasSub A B C}} -> Vector A n -> Vector B n -> Vector C n
+#^^^^^^^ source.vehicle
+#       ^^ source.vehicle keyword.operator.or.vehicle
+#         ^ source.vehicle
+#          ^ source.vehicle keyword.operator.colon.vehicle
+#           ^^^^^^^^^^^^^^^^^^ source.vehicle
+#                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                               ^ source.vehicle
+#                                ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                      ^^^^^ source.vehicle
+#                                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                             ^ source.vehicle
+#                                              ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                    ^^^^^ source.vehicle
+#                                                         ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                           ^ source.vehicle
+#                                                            ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                                  ^^^^^ source.vehicle
+>subVector = zipWith (\x y -> x - y)
+#^^^^^^^ source.vehicle
+#       ^^ source.vehicle keyword.operator.or.vehicle
+#         ^ source.vehicle
+#          ^ source.vehicle keyword.operator.define.vehicle
+#           ^^^^^^^^^^^^^^^ source.vehicle
+#                          ^^ source.vehicle keyword.operator.arrow.vehicle
+#                            ^^^ source.vehicle
+#                               ^ source.vehicle keyword.operator.sub.vehicle
+#                                ^^^^ source.vehicle
+>
+>@noinline
+#^^^^^^^^^ source.vehicle keyword.other.declaration.noinline.vehicle
+>equalsVector : {{HasEq A B}} -> Vector A n -> Vector B n -> Bool
+#^^^^^^^^^^ source.vehicle
+#          ^^ source.vehicle keyword.operator.or.vehicle
+#            ^ source.vehicle
+#             ^ source.vehicle keyword.operator.colon.vehicle
+#              ^^^^^^^^^^^^^^^ source.vehicle
+#                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                               ^ source.vehicle
+#                                ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                      ^^^^^ source.vehicle
+#                                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                             ^ source.vehicle
+#                                              ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                    ^^^^^ source.vehicle
+#                                                         ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                           ^ source.vehicle
+#                                                            ^^^^ source.vehicle support.type.bool.vehicle
+>equalsVector xs ys = bigAnd (zipWith (\x y -> x == y) xs ys)
+#^^^^^^^^^^ source.vehicle
+#          ^^ source.vehicle keyword.operator.or.vehicle
+#            ^^^^^^^ source.vehicle
+#                   ^ source.vehicle keyword.operator.define.vehicle
+#                    ^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                             ^^^ source.vehicle
+#                                                ^^ source.vehicle keyword.operator.equal.vehicle
+#                                                  ^^^^^^^^^^^ source.vehicle
+>
+>notEqualsVector : {{HasNotEq A B}} -> Vector A n -> Vector B n -> Bool
+#^^^^^^^^^^^^^ source.vehicle
+#             ^^ source.vehicle keyword.operator.or.vehicle
+#               ^ source.vehicle
+#                ^ source.vehicle keyword.operator.colon.vehicle
+#                 ^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                   ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                     ^ source.vehicle
+#                                      ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                            ^^^^^ source.vehicle
+#                                                 ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                   ^ source.vehicle
+#                                                    ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                                          ^^^^^ source.vehicle
+#                                                               ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                                                 ^ source.vehicle
+#                                                                  ^^^^ source.vehicle support.type.bool.vehicle
+>notEqualsVector xs ys = bigOr (zipWith (\x y -> x != y) xs ys)
+#^^^^^^^^^^^^^ source.vehicle
+#             ^^ source.vehicle keyword.operator.or.vehicle
+#               ^^^^^^^ source.vehicle
+#                      ^ source.vehicle keyword.operator.define.vehicle
+#                       ^^^^^^^^^^^^^^^^^^^^^^ source.vehicle
+#                                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                               ^^^ source.vehicle
+#                                                  ^^ source.vehicle keyword.operator.distinct.vehicle
+#                                                    ^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Index
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>existsIndex : (Index n -> Bool) -> Bool
+#^^^^^^^^^^^^ source.vehicle
+#            ^ source.vehicle keyword.operator.colon.vehicle
+#             ^^ source.vehicle
+#               ^^^^^ source.vehicle support.type.index.vehicle
+#                    ^^^ source.vehicle
+#                       ^^ source.vehicle keyword.operator.arrow.vehicle
+#                         ^ source.vehicle
+#                          ^^^^ source.vehicle support.type.bool.vehicle
+#                              ^^ source.vehicle
+#                                ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                  ^ source.vehicle
+#                                   ^^^^ source.vehicle support.type.bool.vehicle
+>existsIndex f = bigOr (foreach i . f i)
+#^^^^^^^^^^^^^^ source.vehicle
+#              ^ source.vehicle keyword.operator.define.vehicle
+#               ^^^^^^^^ source.vehicle
+#                       ^^^^^^^ source.vehicle keyword.control.foreach.vehicle
+#                              ^^^ source.vehicle
+#                                 ^ source.vehicle keyword.operator.dot.vehicle
+#                                  ^^^^^^ source.vehicle
+>
+>forallIndex : (Index n -> Bool) -> Bool
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^^ source.vehicle
+#            ^ source.vehicle keyword.operator.colon.vehicle
+#             ^^ source.vehicle
+#               ^^^^^ source.vehicle support.type.index.vehicle
+#                    ^^^ source.vehicle
+#                       ^^ source.vehicle keyword.operator.arrow.vehicle
+#                         ^ source.vehicle
+#                          ^^^^ source.vehicle support.type.bool.vehicle
+#                              ^^ source.vehicle
+#                                ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                  ^ source.vehicle
+#                                   ^^^^ source.vehicle support.type.bool.vehicle
+>forallIndex f = bigAnd (foreach i . f i)
+#^ source.vehicle
+# ^^ source.vehicle keyword.operator.or.vehicle
+#   ^^^^^^^^^^^ source.vehicle
+#              ^ source.vehicle keyword.operator.define.vehicle
+#               ^^^^^^^^^ source.vehicle
+#                        ^^^^^^^ source.vehicle keyword.control.foreach.vehicle
+#                               ^^^ source.vehicle
+#                                  ^ source.vehicle keyword.operator.dot.vehicle
+#                                   ^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- Tensor
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>Tensor : Type -> List Nat -> Type
+#^^^^^^ source.vehicle support.type.tensor.vehicle
+#      ^ source.vehicle
+#       ^ source.vehicle keyword.operator.colon.vehicle
+#        ^ source.vehicle
+#         ^^^^ source.vehicle support.type.type.vehicle
+#             ^ source.vehicle
+#              ^^ source.vehicle keyword.operator.arrow.vehicle
+#                ^ source.vehicle
+#                 ^^^^ source.vehicle support.type.list.vehicle
+#                     ^ source.vehicle
+#                      ^^^ source.vehicle support.type.nat.vehicle
+#                         ^ source.vehicle
+#                          ^^ source.vehicle keyword.operator.arrow.vehicle
+#                            ^ source.vehicle
+#                             ^^^^ source.vehicle support.type.type.vehicle
+>Tensor A ds = fold (\d t -> Vector t d) A ds
+#^^^^^^ source.vehicle support.type.tensor.vehicle
+#      ^^^^^^ source.vehicle
+#            ^ source.vehicle keyword.operator.define.vehicle
+#             ^ source.vehicle
+#              ^^^^ source.vehicle constant.language.fold.vehicle
+#                  ^^^^^^^ source.vehicle
+#                         ^^ source.vehicle keyword.operator.arrow.vehicle
+#                           ^ source.vehicle
+#                            ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                  ^^^^^^^^^^^ source.vehicle
+>
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>-- List
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^ source.vehicle comment.line.double-dash.vehicle
+>--------------------------------------------------------------------------------
+#^^ source.vehicle comment.line.double-dash.vehicle punctuation.definition.comment.vehicle
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.vehicle comment.line.double-dash.vehicle
+>
+>vectorToList : forallT {n} {A} . Vector A n -> List A
+#^^^^ source.vehicle
+#    ^^ source.vehicle keyword.operator.or.vehicle
+#      ^^^^^^^ source.vehicle
+#             ^ source.vehicle keyword.operator.colon.vehicle
+#              ^ source.vehicle
+#               ^^^^^^^ source.vehicle support.type.forall.vehicle
+#                      ^^^^^^^^^ source.vehicle
+#                               ^ source.vehicle keyword.operator.dot.vehicle
+#                                ^ source.vehicle
+#                                 ^^^^^^ source.vehicle support.type.vector.vehicle
+#                                       ^^^^^ source.vehicle
+#                                            ^^ source.vehicle keyword.operator.arrow.vehicle
+#                                              ^ source.vehicle
+#                                               ^^^^ source.vehicle support.type.list.vehicle
+#                                                   ^^^ source.vehicle
+>vectorToList = fold (\x xs -> x :: xs) nil
+#^^^^ source.vehicle
+#    ^^ source.vehicle keyword.operator.or.vehicle
+#      ^^^^^^^ source.vehicle
+#             ^ source.vehicle keyword.operator.define.vehicle
+#              ^ source.vehicle
+#               ^^^^ source.vehicle constant.language.fold.vehicle
+#                   ^^^^^^^^ source.vehicle
+#                           ^^ source.vehicle keyword.operator.arrow.vehicle
+#                             ^^^ source.vehicle
+#                                ^^ source.vehicle keyword.operator.cons.vehicle
+#                                  ^^^^^ source.vehicle
+#                                       ^^^ source.vehicle constant.language.nil.vehicle
+>
+>mapList : (A -> B) -> List A -> List B
+#^^^^^^^^ source.vehicle
+#        ^ source.vehicle keyword.operator.colon.vehicle
+#         ^^^^ source.vehicle
+#             ^^ source.vehicle keyword.operator.arrow.vehicle
+#               ^^^^ source.vehicle
+#                   ^^ source.vehicle keyword.operator.arrow.vehicle
+#                     ^ source.vehicle
+#                      ^^^^ source.vehicle support.type.list.vehicle
+#                          ^^^ source.vehicle
+#                             ^^ source.vehicle keyword.operator.arrow.vehicle
+#                               ^ source.vehicle
+#                                ^^^^ source.vehicle support.type.list.vehicle
+#                                    ^^^ source.vehicle
+>mapList f = fold (\x xs -> f x :: xs) nil
+#^^^^^^^^^^ source.vehicle
+#          ^ source.vehicle keyword.operator.define.vehicle
+#           ^ source.vehicle
+#            ^^^^ source.vehicle constant.language.fold.vehicle
+#                ^^^^^^^^ source.vehicle
+#                        ^^ source.vehicle keyword.operator.arrow.vehicle
+#                          ^^^^^ source.vehicle
+#                               ^^ source.vehicle keyword.operator.cons.vehicle
+#                                 ^^^^^ source.vehicle
+#                                      ^^^ source.vehicle constant.language.nil.vehicle
+>
